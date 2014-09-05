@@ -7,7 +7,7 @@ Sean Lahman's Baseball Database
 }
 \description{
 This database contains pitching, hitting, and fielding statistics for
-Major League Baseball from 1871 through 2012.  It includes data from
+Major League Baseball from 1871 through 2013.  It includes data from
 the two current leagues (American and National), the four other "major" 
 leagues (American Association, Union Association, Players League, and
 Federal League), and the National Association of 1871-1875. 
@@ -28,8 +28,8 @@ challenges and opportunities for data processing and visualization in R.
 \tabular{ll}{
 Package: \tab Lahman\cr
 Type: \tab Package\cr
-Version: \tab 2.0-3\cr
-Date: \tab 2013-05-29\cr
+Version: \tab 3.0-1\cr
+Date: \tab 2014-09-05\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 LazyData: \tab yes\cr
@@ -81,7 +81,7 @@ Awards:
   \code{\link{AwardsSharePlayers}} \tab award voting for player awards\cr
 }
 
-Hall of Fame:  links to Master via \code{hofID}
+Hall of Fame:  links to Master via \code{playerID}
 
 \tabular{rl}{
   \code{\link{HallOfFame}} \tab Hall of Fame voting data\cr

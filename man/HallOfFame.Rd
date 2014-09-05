@@ -10,9 +10,9 @@ Baseball Hall of Fame.
 }
 \usage{data(HallOfFame)}
 \format{
-  A data frame with 4015 observations on the following 8 variables.
+  A data frame with 4054 observations on the following 8 variables.
   \describe{
-    \item{\code{hofID}}{Player ID code}
+    \item{\code{playerID}}{Player ID code}
     \item{\code{yearID}}{Year of ballot}
     \item{\code{votedBy}}{Method by which player was voted upon.  See Details}
     \item{\code{ballots}}{Total ballots cast in that year}
@@ -24,7 +24,7 @@ Baseball Hall of Fame.
   }
 }
 \details{
-This table links to the \code{\link{Master}} table via the \code{hofID}.
+This table links to the \code{\link{Master}} table via the \code{playerID}.
 
 \code{votedBy}: Most Hall of Fame inductees have been elected by the 
 Baseball Writers Association of America (\code{BBWAA}).  Rules for election are
@@ -32,7 +32,7 @@ described in \url{http://en.wikipedia.org/wiki/National_Baseball_Hall_of_Fame_an
 
 }
 \source{
-Lahman, S. (2010) Lahman's Baseball Database, 1871-2010, v.5.8, \url{http://baseball1.com/statistics/}
+Lahman, S. (2014) Lahman's Baseball Database, 1871-2013, 2014 version, \url{http://baseball1.com/statistics/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
@@ -68,11 +68,11 @@ HOFun <- function(d) {
     nyears <- nrow(d)
     fy <- d[nyears, ]
     lastPct <- with(fy, 100 * round(votes/ballots, 3))
-    data.frame(hofID = fy$hofID, nyears, induct = fy$inducted,
+    data.frame(playerID = fy$playerID, nyears, induct = fy$inducted,
                lastPct, lastYear = fy$yearID)
 }
 
-playerOutcomesHOF <- ddply(HOFplayers, .(hofID), HOFun)
+playerOutcomesHOF <- ddply(HOFplayers, .(playerID), HOFun)
 
 
 ############################################################
@@ -104,15 +104,15 @@ subset(playerOutcomesHOF, nyears >= 10L & induct == 'Y')
 
 # (1) Set up the data:
 longTimers <- as.character(unlist(subset(playerOutcomesHOF,
-                                         nyears >= 10, select = 'hofID')))
-HOFlt <- subset(HallOfFame, hofID \%in\% longTimers & votedBy == 'BBWAA')
-HOFlt <- ddply(HOFlt, .(hofID), mutate,
+                                         nyears >= 10, select = 'playerID')))
+HOFlt <- subset(HallOfFame, playerID \%in\% longTimers & votedBy == 'BBWAA')
+HOFlt <- ddply(HOFlt, .(playerID), mutate,
                   elected = ifelse(any(inducted == 'Y'),"Elected", "Not elected"),
                   pct = 100 * round(votes/ballots, 3))
 
 # Plot the voting profiles:
 ggplot(HOFlt, aes(x = yearID, y = pct,
-                  group = hofID)) +
+                  group = playerID)) +
     ggtitle("Profiles of voting percentage for long-time HOF candidates") +
     geom_line() +
     geom_hline(yintercept = 75, col = 'red') +

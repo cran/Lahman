@@ -9,7 +9,7 @@ Extracts the label for a variable from one or more of the \code{*Labels}
 files.
 }
 \usage{
-Label(var, labels = rbind(battingLabels, pitchingLabels, fieldingLabels))
+Label(var, labels)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +18,7 @@ name of a variable
 }
   \item{labels}{
 label table(s) to search, a 2-column dataframe containing 
-variable names and labels.
+variable names and labels. The default is  \code{rbind(battingLabels, pitchingLabels, fieldingLabels)}.
 }
 }
 %\details{

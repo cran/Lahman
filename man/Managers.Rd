@@ -10,9 +10,9 @@ for those teams in each year.
 }
 \usage{data(Managers)}
 \format{
-  A data frame with 3306 observations on the following 10 variables.
+  A data frame with 3337 observations on the following 10 variables.
   \describe{
-    \item{\code{managerID}}{Player ID Number}
+    \item{\code{playerID}}{Manager (player) ID code}
     \item{\code{yearID}}{Year}
     \item{\code{teamID}}{Team; a factor}
     \item{\code{lgID}}{League; a factor with levels \code{AA} \code{AL} \code{FL} \code{NL} \code{PL} \code{UA}}
@@ -31,7 +31,7 @@ for those teams in each year.
 %%%  ~~ If necessary, more details than the __description__ above ~~
 %}
 \source{
-Lahman, S. (2010) Lahman's Baseball Database, 1871-2012, 2012 version, \url{http://baseball1.com/statistics/}
+Lahman, S. (2014) Lahman's Baseball Database, 1871-2013, 2014 version, \url{http://baseball1.com/statistics/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
@@ -57,7 +57,7 @@ mgrsumm <- function(d) {
     df
 }
 
-mgrTotals <- ddply(Managers, .(managerID), summarise,
+mgrTotals <- ddply(Managers, .(playerID), summarise,
                   nyear = length(unique(yearID)),
                   yearBegin = min(yearID),
                   yearEnd = max(yearID),
@@ -68,9 +68,9 @@ mgrTotals <- ddply(Managers, .(managerID), summarise,
                   L = sum(L),
                   WinPct = round(sum(W)/sum(W + L), 3))
 mgrTotals <- merge(mgrTotals,
-                   subset(Master, !is.na(managerID),
-                          select = c('managerID', 'nameLast', 'nameFirst')),
-                   by = 'managerID')
+                   subset(Master, !is.na(playerID),
+                          select = c('playerID', 'nameLast', 'nameFirst')),
+                   by = 'playerID')
 
 ##########################
 # Some basic queries
@@ -110,10 +110,10 @@ subset(mgrTotals, games >= 4000)
 # Connie Mack had an advantage: he owned the Philadelphia A's :)
 
 # Table of Tony LaRussa's team finishes:
-with(subset(Managers, managerID == 'larusto01m'), table(rank))
+with(subset(Managers, playerID == 'larusto01'), table(rank))
 
 # To include zero frequencies, one alternative is the tabulate() function:
-with(subset(Managers, managerID == 'larusto01m'), tabulate(rank, 7))
+with(subset(Managers, playerID == 'larusto01'), tabulate(rank, 7))
 
 
 ##############################################

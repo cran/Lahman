@@ -11,7 +11,7 @@ Split season data for managers
 \format{
   A data frame with 93 observations on the following 10 variables.
   \describe{
-    \item{\code{managerID}}{Manager ID code}
+    \item{\code{playerID}}{Manager (player) ID code}
     \item{\code{yearID}}{Year}
     \item{\code{teamID}}{Team; a factor}
     \item{\code{lgID}}{League; a factor with levels \code{AL} \code{NL}}
@@ -30,7 +30,7 @@ Split season data for managers
 %%%  ~~ If necessary, more details than the __description__ above ~~
 %}
 \source{
-Lahman, S. (2010) Lahman's Baseball Database, 1871-2012, 2012 version, \url{http://baseball1.com/statistics/}
+Lahman, S. (2014) Lahman's Baseball Database, 1871-2013, 2014 version, \url{http://baseball1.com/statistics/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
