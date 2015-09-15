@@ -6,10 +6,13 @@ Extract the Label for a Variable
 }
 \description{
 Extracts the label for a variable from one or more of the \code{*Labels}
-files.
+files. This is useful for plots and other displays because the variable
+names are often cryptically short.
 }
 \usage{
-Label(var, labels)
+Label(var, labels = rbind(Lahman::battingLabels, 
+                          Lahman::pitchingLabels, 
+                          Lahman::fieldingLabels))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +21,7 @@ name of a variable
 }
   \item{labels}{
 label table(s) to search, a 2-column dataframe containing 
-variable names and labels. The default is  \code{rbind(battingLabels, pitchingLabels, fieldingLabels)}.
+variable names and labels.
 }
 }
 %\details{

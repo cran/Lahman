@@ -14,7 +14,7 @@
 battingStats <- function(data=Lahman::Batting, 
 	idvars=c("playerID","yearID","stint","teamID","lgID"),
 	cbind=TRUE) {
-    require('plyr')
+#    require('plyr')
     NA2zero <- function(x) {
     # Takes a column vector and replaces NAs by zeros
         x[is.na(x)] <- 0

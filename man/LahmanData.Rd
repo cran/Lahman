@@ -10,13 +10,13 @@ It may be useful for computing on the various files.
 }
 \usage{data(LahmanData)}
 \format{
-  A data frame with 24 observations on the following 4 variables.
+  A data frame with 24 observations on the following 5 variables.
   \describe{
     \item{\code{file}}{name of dataset}
     \item{\code{class}}{class of dataset}
     \item{\code{nobs}}{number of observations}
     \item{\code{nvar}}{number of variables}
-%    \item{\code{title}}{dataset title}
+    \item{\code{title}}{dataset title}
   }
 }
 \details{

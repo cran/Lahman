@@ -12,7 +12,7 @@ where players are identified only by \code{playerID}.
 
 \usage{data(Master)}
 \format{
-  A data frame with 18354 observations on the following 26 variables.
+  A data frame with 18589 observations on the following 26 variables.
   \describe{
 %    \item{\code{lahmanID}}{Unique number assigned to each player}
     \item{\code{playerID}}{A unique code asssigned to each player.  The \code{playerID} links
@@ -51,7 +51,7 @@ where players are identified only by \code{playerID}.
 \code{debut}, \code{finalGame} were converted from character strings with \code{as.Date}.
 }
 \source{
-Lahman, S. (2014) Lahman's Baseball Database, 1871-2013, 2014 version, \url{http://baseball1.com/statistics/}
+Lahman, S. (2015) Lahman's Baseball Database, 1871-2014, 2015 version, \url{http://baseball1.com/statistics/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
@@ -78,7 +78,9 @@ mosaic(BT, shade=TRUE)
 
 ## Who is Shoeless Joe Jackson?
 subset(Master, nameLast=="Jackson" & nameFirst=="Joe")
-joeID <-c(subset(Master, nameLast=="Jackson" & nameFirst=="Joe")["playerID"])
+subset(Master, nameLast=="Jackson" & nameFirst=="Shoeless Joe")
+
+joeID <-c(subset(Master, nameLast=="Jackson" & nameFirst=="Shoeless Joe")["playerID"])
 
 subset(Batting, playerID==joeID)
 subset(Fielding, playerID==joeID)
