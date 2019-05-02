@@ -9,7 +9,7 @@ Pitching table
 }
 \usage{data(Pitching)}
 \format{
-  A data frame with 44963 observations on the following 30 variables.
+  A data frame with 46699 observations on the following 30 variables.
   \describe{
     \item{\code{playerID}}{Player ID code}
     \item{\code{yearID}}{Year}
@@ -47,7 +47,7 @@ Pitching table
 %%%  ~~ If necessary, more details than the __description__ above ~~
 %}
 \source{
-Lahman, S. (2017) Lahman's Baseball Database, 1871-2016, 2016 version, \url{http://www.seanlahman.com/baseball-archive/statistics/}
+Lahman, S. (2019) Lahman's Baseball Database, 1871-2018, 2018 version, \url{http://www.seanlahman.com/baseball-archive/statistics/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
@@ -111,11 +111,11 @@ pitching \%>\%
 ###############################################
 
 # Add name & throws information:
-masterInfo <- Master \%>\%
+peopleInfo <- People \%>\%
                 select(playerID, nameLast, nameFirst, throws)
                 
-# Merge masterInfo into the pitching data
-pitching1 <- right_join(masterInfo, pitching, by = "playerID")
+# Merge peopleInfo into the pitching data
+pitching1 <- right_join(peopleInfo, pitching, by = "playerID")
 
 # Extract the pitcher with the maximum number of wins 
 # each year, by league
@@ -129,10 +129,10 @@ anova(lm(formula = W ~ yearID + I(yearID^2) + lgID + throws, data = winp))
 
 # Nature of managing pitching staffs has altered importance of
 # wins over time
-
+\dontrun{
 require("ggplot2") 
 
-# compare loess smooth with quadratic fit 
+# compare loess smooth with quadratic fit
 ggplot(winp, aes(x = yearID, y = W)) +
     geom_point(aes(colour = throws, shape=lgID), size = 2) +
     geom_smooth(method="loess", size=1.5, color="blue") +
@@ -146,13 +146,13 @@ ggplot(winp, aes(x = yearID, y = W)) +
 ## pool to those who pitched at least 100 innings in a year.
 
 pitching \%>\% filter(IPouts >= 300) \%>\%  # >= 100 IP
+
 ggplot(., aes(x = yearID, y = IPouts, color = lgID)) +
   geom_smooth(method="loess") +
   labs(x = "Year", y = "IPouts")
 
 ## Another indicator: total number of complete games pitched
 ## (Mirrors the trend from the preceding plot.)
-
 pitching \%>\% 
    group_by(yearID, lgID) \%>\%
    summarise(totalCG = sum(CG, na.rm = TRUE)) \%>\%
@@ -160,7 +160,7 @@ pitching \%>\%
       geom_point() +
       geom_path() +
       labs(x = "Year", y = "Number of complete games")
-
+}
 
 }
 

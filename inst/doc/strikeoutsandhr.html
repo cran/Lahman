@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Vanessa Foot and Justeena Zaki-Azat" />
+
+<meta name="date" content="2019-05-01" />
+
+<title>Relationship Between Strikeouts and Home Runs</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Relationship Between Strikeouts and Home Runs</h1>
+<h4 class="author">Vanessa Foot and Justeena Zaki-Azat</h4>
+<h4 class="date">2019-05-01</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(Lahman) </a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(ggplot2) </a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(car)</a></code></pre></div>
+<p>This vignette looks at the relationship between rate of strikeouts and home runs from the year 1950+. This question was inspired by Marchi and Albert (2016), “Analyzing Baseball Data in R.”</p>
+<p>There are many factors that must come together for a player to launch a home run. One of those factors is swing speed—against a 94-mph fastball, every 1-mph increase in swing speed extends distance about 8 feet (Coburn, 2009). If a batter hits ~50 home runs in a season, is it safe to assume that he’s swinging for the fences, and also more likely to strike out? Babe Ruth broke the record of most home runs in a season (60) and also struck out more than any other player (89). However, in 1971, Willie Stargell hit 48 home runs and struck out 154 times, while Henry Aaron hit 47 home runs and struck out 58 times, demonstrating that home runs and strikeouts do not always go hand in hand.</p>
+<div id="the-data-files" class="section level2">
+<h2>The data files</h2>
+<p>Start with loading the files we will use here. We do some pre-processing to make them more convenient for the analyses done later.</p>
+<div id="the-batting-data" class="section level3">
+<h3>The <code>Batting</code> data</h3>
+<p>The <code>Batting</code> table contains batting data at the team level going back to 1871, with a separate observation from each year. This file is available using the newest v. 7.0.1, of the <code>Lahman</code> package. We use this to get everything we need for our analysis: at bats (AB) strikeouts (SO), and home runs (HR) for all teams since the year 1950+.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span>(<span class="st">&quot;Batting&quot;</span>, <span class="dt">package=</span><span class="st">&quot;Lahman&quot;</span>) <span class="co"># load the data</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">str</span>(Batting) <span class="co"># take a look at the structure of the complete data set, as it is</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">## &#39;data.frame&#39;:    105861 obs. of  22 variables:</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">##  $ playerID: chr  &quot;abercda01&quot; &quot;addybo01&quot; &quot;allisar01&quot; &quot;allisdo01&quot; ...</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">##  $ yearID  : int  1871 1871 1871 1871 1871 1871 1871 1871 1871 1871 ...</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">##  $ stint   : int  1 1 1 1 1 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">##  $ teamID  : Factor w/ 149 levels &quot;ALT&quot;,&quot;ANA&quot;,&quot;ARI&quot;,..: 136 111 39 142 111 56 111 24 56 24 ...</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">##  $ lgID    : Factor w/ 7 levels &quot;AA&quot;,&quot;AL&quot;,&quot;FL&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">##  $ G       : int  1 25 29 27 25 12 1 31 1 18 ...</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">##  $ AB      : int  4 118 137 133 120 49 4 157 5 86 ...</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">##  $ R       : int  0 30 28 28 29 9 0 66 1 13 ...</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">##  $ H       : int  0 32 40 44 39 11 1 63 1 13 ...</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">##  $ X2B     : int  0 6 4 10 11 2 0 10 1 2 ...</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">##  $ X3B     : int  0 0 5 2 3 1 0 9 0 1 ...</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">##  $ HR      : int  0 0 0 2 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">##  $ RBI     : int  0 13 19 27 16 5 2 34 1 11 ...</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">##  $ SB      : int  0 8 3 1 6 0 0 11 0 1 ...</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">##  $ CS      : int  0 1 1 1 2 1 0 6 0 0 ...</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">##  $ BB      : int  0 4 2 0 2 0 1 13 0 0 ...</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">##  $ SO      : int  0 0 5 2 1 1 0 1 0 0 ...</span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co">##  $ IBB     : int  NA NA NA NA NA NA NA NA NA NA ...</span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co">##  $ HBP     : int  NA NA NA NA NA NA NA NA NA NA ...</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="co">##  $ SH      : int  NA NA NA NA NA NA NA NA NA NA ...</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co">##  $ SF      : int  NA NA NA NA NA NA NA NA NA NA ...</span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="co">##  $ GIDP    : int  0 0 1 0 0 0 0 1 0 0 ...</span></a></code></pre></div>
+<p>We are only using part of the table, so we will filter the data set to include only the variables that we need.</p>
+<p>We’ll also create a new data frame that includes data from the year 1950+. The Batting table also has multiple listings for each year, so we’ll collapse them using the summarize function.</p>
+<p>Last, we will mutate the variables so that home runs and strikeouts are divided by at bat, to add new columns “SO rate” and “HR rate.” This full data frame will be called FullBatting.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">Batting &lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">select</span>(yearID, AB, SO, HR) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># select the variables that we need</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">group_by</span>(yearID) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># group by year, so that each row is one year</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw">summarise_each</span>(<span class="kw">funs</span>(sum)) <span class="co"># we want the sum of AB, HR, and SO in the other rows</span></a>
+<a class="sourceLine" id="cb3-5" title="5"></a>
+<a class="sourceLine" id="cb3-6" title="6">FullBatting&lt;-<span class="st"> </span>Batting <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># create a new variable that has SO rate and HR rate</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">filter</span>(yearID <span class="op">&gt;=</span><span class="st"> </span><span class="dv">1950</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># select the years from 1900+</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">SO_rate =</span> (SO<span class="op">/</span>AB)<span class="op">*</span><span class="dv">100</span>, <span class="dt">HR_rate =</span> (HR<span class="op">/</span>AB)<span class="op">*</span><span class="dv">100</span>) <span class="co">#add SO rate and HR rate as percentages to our data frame  </span></a>
+<a class="sourceLine" id="cb3-9" title="9">  </a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="kw">some</span>(FullBatting) <span class="co"># look at a set of random observations</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">## # A tibble: 10 x 6</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">##    yearID     AB    SO    HR SO_rate HR_rate</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">##     &lt;int&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">##  1   1953  84997 10213  2076    12.0    2.44</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">##  2   1954  83936 10215  1937    12.2    2.31</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">##  3   1958  83827 12225  2240    14.6    2.67</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">##  4   1965 109739 19283  2688    17.6    2.45</span></a>
+<a class="sourceLine" id="cb3-18" title="18"><span class="co">##  5   1971 130544 20956  2863    16.1    2.19</span></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">##  6   1977 143975 21722  3644    15.1    2.53</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="co">##  7   1983 143538 21716  3301    15.1    2.30</span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="co">##  8   1987 144095 25099  4458    17.4    3.09</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">##  9   1988 142568 23355  3180    16.4    2.23</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">## 10   2017 165567 40104  6105    24.2    3.69</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">dim</span>(FullBatting) <span class="co"># show the dimensions of the data frame</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">## [1] 69  6</span></a></code></pre></div>
+<p>##A first look at ‘Batting’</p>
+<p>What is the total number of strikeouts in our data set?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">sum</span>(FullBatting<span class="op">$</span>SO) <span class="co"># find the sum of strikeout column</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co">## [1] 1634496</span></a></code></pre></div>
+<p>What is the average rate of strikeouts per at bat?</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">mean</span>(FullBatting<span class="op">$</span>SO_rate) <span class="co"># find the mean of the strikeout rate column</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">## [1] 17.1</span></a></code></pre></div>
+<p>How many homeruns do we have in our data set?</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">sum</span>(FullBatting<span class="op">$</span>HR) <span class="co"># find the sum of home run column</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">## [1] 248166</span></a></code></pre></div>
+<p>What is the average rate of home runs per at bat?</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">mean</span>(FullBatting<span class="op">$</span>HR_rate) <span class="co"># find the mean of the home run rate column</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">## [1] 2.623</span></a></code></pre></div>
+<p>Is there a relationship between strikeout rate and home run rate? According to our test, there is a significant correlation. The p-value is equal to .001, with df= 65. There is a .61 correlation between strikeout rate and home run rate.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">corr &lt;-<span class="st"> </span><span class="kw">cor.test</span>(FullBatting<span class="op">$</span>SO_rate, FullBatting<span class="op">$</span>HR_rate)</a>
+<a class="sourceLine" id="cb9-2" title="2">corr <span class="co"># find the correlation between strikeout rate and home run rate</span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="co">## </span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co">##  Pearson&#39;s product-moment correlation</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">## </span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">## data:  FullBatting$SO_rate and FullBatting$HR_rate</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">## t = 7.4, df = 67, p-value = 3e-10</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">## alternative hypothesis: true correlation is not equal to 0</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">## 95 percent confidence interval:</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">##  0.5134 0.7818</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">## sample estimates:</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">##    cor </span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">## 0.6688</span></a></code></pre></div>
+<p>We can look at the totals for interpretation purposes. We see here that for every 6.14 strikeouts, home runs increase by 4.14.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">Model_Totals &lt;-<span class="st"> </span><span class="kw">lm</span>(SO_rate<span class="op">~</span>HR_rate, <span class="dt">data=</span>FullBatting)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">summary</span>(Model_Totals) <span class="co"># look at the model totals</span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="co">## </span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="co">## Call:</span></a>
+<a class="sourceLine" id="cb10-5" title="5"><span class="co">## lm(formula = SO_rate ~ HR_rate, data = FullBatting)</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="co">## </span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="co">## Residuals:</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="co">##    Min     1Q Median     3Q    Max </span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="co">## -5.008 -1.431 -0.031  1.215  5.948 </span></a>
+<a class="sourceLine" id="cb10-10" title="10"><span class="co">## </span></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="co">## Coefficients:</span></a>
+<a class="sourceLine" id="cb10-12" title="12"><span class="co">##             Estimate Std. Error t value Pr(&gt;|t|)    </span></a>
+<a class="sourceLine" id="cb10-13" title="13"><span class="co">## (Intercept)     4.92       1.68    2.94   0.0045 ** </span></a>
+<a class="sourceLine" id="cb10-14" title="14"><span class="co">## HR_rate         4.64       0.63    7.36  3.4e-10 ***</span></a>
+<a class="sourceLine" id="cb10-15" title="15"><span class="co">## ---</span></a>
+<a class="sourceLine" id="cb10-16" title="16"><span class="co">## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></a>
+<a class="sourceLine" id="cb10-17" title="17"><span class="co">## </span></a>
+<a class="sourceLine" id="cb10-18" title="18"><span class="co">## Residual standard error: 2.28 on 67 degrees of freedom</span></a>
+<a class="sourceLine" id="cb10-19" title="19"><span class="co">## Multiple R-squared:  0.447,  Adjusted R-squared:  0.439 </span></a>
+<a class="sourceLine" id="cb10-20" title="20"><span class="co">## F-statistic: 54.2 on 1 and 67 DF,  p-value: 3.37e-10</span></a></code></pre></div>
+<p>Create a scatterplot in ggplot, using SO rate and HR rate.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(FullBatting, <span class="kw">aes</span>(<span class="dt">x=</span> SO_rate, <span class="dt">y=</span> HR_rate))<span class="op">+</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">geom_point</span>()<span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Strikeout Rate&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Home Run Rate&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Relationship Between Strikeouts and Home Runs&quot;</span>)</a>
+<a class="sourceLine" id="cb11-6" title="6">plot <span class="op">+</span><span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">method=</span> <span class="st">&quot;lm&quot;</span>) <span class="co">##stat_smooth fits the model and then we plot the linear regression model</span></a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
