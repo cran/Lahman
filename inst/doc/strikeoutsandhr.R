@@ -1,4 +1,4 @@
-## ----nomessages, echo = FALSE--------------------------------------------
+## ----nomessages, echo = FALSE-------------------------------------------------
 # set some default options for chunks
 knitr::opts_chunk$set(
   warning = FALSE,   # avoid warnings and messages in the output
@@ -13,17 +13,17 @@ par(mar=c(3,3,1,1)+.1)
 
 set.seed(1234)       # reproducibility
 
-## ----load-packages-------------------------------------------------------
+## ----load-packages------------------------------------------------------------
 library(Lahman) 
 library(ggplot2) 
 library(dplyr)
 library(car)
 
-## ----Batting-names-------------------------------------------------------
+## ----Batting-names------------------------------------------------------------
 data("Batting", package="Lahman") # load the data
 str(Batting) # take a look at the structure of the complete data set, as it is
 
-## ----Batting-filter------------------------------------------------------
+## ----Batting-filter-----------------------------------------------------------
 Batting <- Batting %>%
   select(yearID, AB, SO, HR) %>% # select the variables that we need
   group_by(yearID) %>% # group by year, so that each row is one year
@@ -35,30 +35,30 @@ FullBatting<- Batting %>% # create a new variable that has SO rate and HR rate
   
 some(FullBatting) # look at a set of random observations
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 dim(FullBatting) # show the dimensions of the data frame
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sum(FullBatting$SO) # find the sum of strikeout column
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 mean(FullBatting$SO_rate) # find the mean of the strikeout rate column
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 sum(FullBatting$HR) # find the sum of home run column
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 mean(FullBatting$HR_rate) # find the mean of the home run rate column
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 corr <- cor.test(FullBatting$SO_rate, FullBatting$HR_rate)
 corr # find the correlation between strikeout rate and home run rate
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 Model_Totals <- lm(SO_rate~HR_rate, data=FullBatting)
 summary(Model_Totals) # look at the model totals
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 plot <- ggplot(FullBatting, aes(x= SO_rate, y= HR_rate))+
 geom_point()+ 
   xlab("Strikeout Rate") +

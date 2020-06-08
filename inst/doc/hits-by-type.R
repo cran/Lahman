@@ -1,4 +1,4 @@
-## ----nomessages, echo = FALSE--------------------------------------------
+## ----nomessages, echo = FALSE-------------------------------------------------
 # set some default options for chunks
 knitr::opts_chunk$set(
   warning = FALSE,   # avoid warnings and messages in the output
@@ -12,12 +12,12 @@ options(digits=4)    # number of digits to display in output; can override with 
 
 set.seed(1234)       # reproducibility
 
-## ----load-data-----------------------------------------------------------
+## ----load-data----------------------------------------------------------------
 library("dplyr")
 data(Batting, package="Lahman")
 str(Batting) #take a look at the data
 
-## ----select-mutate-------------------------------------------------------
+## ----select-mutate------------------------------------------------------------
 batting <- Batting %>% 
   # select the variables that we want left after we filter the data
   select(yearID, H, X2B, X3B, HR) %>%
@@ -34,17 +34,17 @@ batting <- Batting %>%
   mutate(Triple = X3B/H*100) %>% 
   mutate(HomeRun = HR/H*100)
 
-## ----select2-------------------------------------------------------------
+## ----select2------------------------------------------------------------------
 bat <- batting %>% 
   select(yearID, Single, Double, Triple, HomeRun)
 #this makes a nice looking data frame before we move on
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(reshape2)
 bat_long <- melt(bat, id.vars = c("yearID"))
 head(bat_long)
 
-## ----plot1---------------------------------------------------------------
+## ----plot1--------------------------------------------------------------------
 library(ggplot2)
 hitsperyear <- ggplot(bat_long, aes(x=yearID, y= value, col=variable)) +
        geom_line() + 
@@ -58,7 +58,7 @@ hitsperyear <- ggplot(bat_long, aes(x=yearID, y= value, col=variable)) +
                              aes(ggtitle= "Type of Hit")))
 hitsperyear
 
-## ----plot2---------------------------------------------------------------
+## ----plot2--------------------------------------------------------------------
 hitsperyear + geom_smooth(method="lm")
 
 

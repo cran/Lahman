@@ -1,4 +1,4 @@
-## ----Setup, message=FALSE------------------------------------------------
+## ----Setup, message=FALSE-----------------------------------------------------
 
 # package load 
 library(Lahman)
@@ -6,7 +6,7 @@ library(ggplot2)
 library(dplyr)
 
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 
 
 data(Teams)
@@ -19,7 +19,7 @@ MLB_RPG <- Teams %>%
   mutate(leagueRPG=R/G, leagueRAPG=RA/G)
 
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 
 MLBRPGplot <- ggplot(MLB_RPG, aes(x=yearID, y=leagueRPG)) +
   geom_point() +
@@ -30,7 +30,7 @@ MLBRPGplot <- ggplot(MLB_RPG, aes(x=yearID, y=leagueRPG)) +
 MLBRPGplot
 
 
-## ----message=FALSE-------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
   
 MLBRPGplot +
   ggtitle("MLB run scoring, 1901-2016") +
@@ -39,7 +39,7 @@ MLBRPGplot +
   ylab("team runs per game")
 
 
-## ---- message=FALSE------------------------------------------------------
+## ---- message=FALSE-----------------------------------------------------------
 
 MLBRPGplot +
   labs(title = "MLB run scoring, 1901-2016",

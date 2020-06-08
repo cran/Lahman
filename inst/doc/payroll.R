@@ -1,4 +1,4 @@
-## ----nomessages, echo = FALSE--------------------------------------------
+## ----nomessages, echo = FALSE-------------------------------------------------
 # set some default options for chunks
 knitr::opts_chunk$set(
   warning = FALSE,   # avoid warnings and messages in the output
@@ -13,22 +13,22 @@ par(mar=c(3,3,1,1)+.1)
 
 set.seed(1234)       # reproducibility
 
-## ----load-packages, echo=FALSE-------------------------------------------
+## ----load-packages, echo=FALSE------------------------------------------------
 library(Lahman)   # Load additional packages here 
 library(ggplot2)
 library(dplyr)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 data("Salaries", package="Lahman")
 str(Salaries)
 sample_n(Salaries, 10)
 
-## ----Teams-names---------------------------------------------------------
+## ----Teams-names--------------------------------------------------------------
 data("Teams", package="Lahman")
 dim(Teams)
 names(Teams)
 
-## ----Teams-filter--------------------------------------------------------
+## ----Teams-filter-------------------------------------------------------------
 Teams <- Teams %>%
   select(yearID, lgID, teamID, name, divID, Rank, WSWin, attendance) %>%
   filter(yearID >= 1985) %>%
@@ -36,14 +36,14 @@ Teams <- Teams %>%
 
 sample_n(Teams, 10)
 
-## ----SeriesPost-names----------------------------------------------------
+## ----SeriesPost-names---------------------------------------------------------
 data("SeriesPost", package="Lahman")
 names(SeriesPost)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 table(SeriesPost$round)
 
-## ----filter-WS-----------------------------------------------------------
+## ----filter-WS----------------------------------------------------------------
 WS <- SeriesPost %>%
   filter(yearID >= 1985 & round == "WS") %>%
   select(-ties, -round) %>%
@@ -52,64 +52,64 @@ WS <- SeriesPost %>%
 dim(WS)
 sample_n(WS, 6)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 table(Salaries$yearID)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 range(Salaries$salary)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 Salaries %>% 
   group_by(yearID) %>% 
   summarise(min=min(salary),
             max=max(salary))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 which(Salaries$salary==0)
 
-## ----which-zero----------------------------------------------------------
+## ----which-zero---------------------------------------------------------------
 Salaries[which(Salaries$salary==0),]
 
-## ----filter-salaries-----------------------------------------------------
+## ----filter-salaries----------------------------------------------------------
 Salaries <- Salaries %>%
     filter(salary !=0)
 
-## ----summarise-salaries--------------------------------------------------
+## ----summarise-salaries-------------------------------------------------------
 payroll <- Salaries %>%
                 group_by(teamID, yearID) %>%
                 summarise(payroll = sum(salary)/1000000)
 head(payroll)
 
-## ----merge-teams---------------------------------------------------------
+## ----merge-teams--------------------------------------------------------------
 payroll <- merge(payroll, Teams[,c("yearID", "teamID","name", "WSWin")], 
                  by=c("yearID", "teamID")) 
 sample_n(payroll, 10)
 
-## ----eval=FALSE----------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  left_join(payroll, Teams[,c("yearID", "teamID","name", "WSWin")],
 #            by=c("yearID", "teamID")) %>%
 #    sample_n(10)
 
-## ----make-WSWin-factor---------------------------------------------------
+## ----make-WSWin-factor--------------------------------------------------------
 payroll <- payroll %>%
   mutate(WSWin = factor(WSWin))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 table(payroll$WSWin, useNA="ifany")
 
-## ----payroll-boxplot, fig.width=7----------------------------------------
+## ----payroll-boxplot, fig.width=7---------------------------------------------
 boxplot(payroll ~ yearID, data=payroll, ylab="Payroll ($ millions)")
 
-## ---- payroll-Boxplot, fig.width=7---------------------------------------
+## ---- payroll-Boxplot, fig.width=7--------------------------------------------
 out <- car::Boxplot(payroll ~ yearID, data=payroll,
              id=list(n=1, 
                      labels=as.character(payroll$teamID)), 
              ylab="Payroll ($ millions)")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 table(out)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 inflation = c(1,    1.02, 1.06, 1.10, 1.15, 1.21, 
               1.27, 1.30, 1.34, 1.38, 1.42, 1.46, 1.49, 1.51, 1.55, 1.60,
               1.65, 1.67, 1.71, 1.76, 1.82, 1.87, 1.93, 2.00, 1.99, 2.03,
@@ -124,20 +124,20 @@ ggplot(inflation.df, aes(y=inflation, x=year)) +
   geom_smooth(method="lm")
   
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 infl.lm <- lm(inflation ~ year, data=inflation.df)
 (coefs <- coef(infl.lm))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 payroll <- payroll %>%
   mutate(payrollStd = payroll / (coefs[1] + coefs[2] * yearID))
 
-## ---- payroll-Boxplot2, fig.width=7--------------------------------------
+## ---- payroll-Boxplot2, fig.width=7-------------------------------------------
 car::Boxplot(payrollStd ~ yearID, data=payroll,
              id = list(labels=as.character(payroll$teamID)), 
              ylab="Payroll (1985-adjusted $ millions)")
 
-## ---- payroll-winners-plot, fig.width=7----------------------------------
+## ---- payroll-winners-plot, fig.width=7---------------------------------------
 Cols <- ifelse(payroll$WSWin=='Y', "red", gray(.7, alpha=0.5))
 with(payroll, {
   plot(payrollStd ~ jitter(yearID, 0.5), 
