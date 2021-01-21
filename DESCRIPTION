@@ -1,8 +1,8 @@
 Package: Lahman
 Type: Package
 Title: Sean 'Lahman' Baseball Database
-Version: 8.0-0
-Date: 2020-06-06
+Version: 8.0-1
+Date: 2021-01-20
 Authors@R: c(person(given = "Michael", family = "Friendly", role="aut", email="friendly@yorku.ca"), 
         person(given ="Chris", family = "Dalzell", role=c("cre","aut"), email="cdalzell@gmail.com"),
         person(given ="Martin", family = "Monkman", role="aut"),
@@ -19,10 +19,10 @@ Author: Michael Friendly [aut],
 Maintainer: Chris Dalzell <cdalzell@gmail.com>
 Description: Provides the tables from the 'Sean Lahman Baseball Database' as
     a set of R data.frames. It uses the data on pitching, hitting and fielding
-    performance and other tables from 1871 through 2018, as recorded in the 2019
+    performance and other tables from 1871 through 2019, as recorded in the 2020
     version of the database. Documentation examples show how many baseball
     questions can be investigated.
-Depends: R (>= 3.5.0)
+Depends: R (>= 2.10)
 Suggests: lattice, ggplot2, googleVis, data.table, vcd, reshape2,
         tidyr, knitr, rmarkdown, car
 Imports: dplyr
@@ -34,7 +34,7 @@ LazyData: yes
 BugReports: https://github.com/cdalzell/Lahman/issues
 Repository: CRAN
 NeedsCompilation: no
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-Packaged: 2020-06-08 01:46:33 UTC; dz
-Date/Publication: 2020-06-08 23:50:02 UTC
+Packaged: 2021-01-21 02:01:32 UTC; dz
+Date/Publication: 2021-01-21 10:40:17 UTC

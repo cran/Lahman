@@ -12,10 +12,74 @@
 
 <meta name="author" content="Vanessa Foot and Justeena Zaki-Azat" />
 
-<meta name="date" content="2020-06-07" />
+<meta name="date" content="2021-01-20" />
 
 <title>Relationship Between Strikeouts and Home Runs</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
+  }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -303,7 +367,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Relationship Between Strikeouts and Home Runs</h1>
 <h4 class="author">Vanessa Foot and Justeena Zaki-Azat</h4>
-<h4 class="date">2020-06-07</h4>
+<h4 class="date">2021-01-20</h4>
 
 
 
@@ -318,7 +382,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>Start with loading the files we will use here. We do some pre-processing to make them more convenient for the analyses done later.</p>
 <div id="the-batting-data" class="section level3">
 <h3>The <code>Batting</code> data</h3>
-<p>The <code>Batting</code> table contains batting data at the team level going back to 1871, with a separate observation from each year. This file is available using the newest v. 8.0.0, of the <code>Lahman</code> package. We use this to get everything we need for our analysis: at bats (AB) strikeouts (SO), and home runs (HR) for all teams since the year 1950+.</p>
+<p>The <code>Batting</code> table contains batting data at the team level going back to 1871, with a separate observation from each year. This file is available using the newest v. 8.0.1, of the <code>Lahman</code> package. We use this to get everything we need for our analysis: at bats (AB) strikeouts (SO), and home runs (HR) for all teams since the year 1950+.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(<span class="st">&quot;Batting&quot;</span>, <span class="dt">package=</span><span class="st">&quot;Lahman&quot;</span>) <span class="co"># load the data</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw">str</span>(Batting) <span class="co"># take a look at the structure of the complete data set, as it is</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">## &#39;data.frame&#39;:    107429 obs. of  22 variables:</span></span>

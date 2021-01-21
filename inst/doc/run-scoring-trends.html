@@ -12,10 +12,74 @@
 
 <meta name="author" content="Martin Monkman" />
 
-<meta name="date" content="2020-06-07" />
+<meta name="date" content="2021-01-20" />
 
 <title>Run Scoring Trends</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
+  }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -303,7 +367,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Run Scoring Trends</h1>
 <h4 class="author">Martin Monkman</h4>
-<h4 class="date">2020-06-07</h4>
+<h4 class="date">2021-01-20</h4>
 
 
 
@@ -376,12 +440,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb5-5"><a href="#cb5-5"></a>       <span class="dt">x =</span> <span class="st">&quot;year&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;team runs per game&quot;</span>) </span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>Easy.</p>
-<p>For more information about the <code>labs</code> function in <code>ggplot2</code>, the <a href="http://ggplot2.tidyverse.org/reference/labs.html">“Modify axis, legend, and plot labels”</a> reference page within the <a href="http://ggplot2.tidyverse.org/"><code>ggplot2</code></a> site, part of the <a href="https://www.tidyverse.org/">Tidyverse</a>.</p>
+<p>For more information about the <code>labs</code> function in <code>ggplot2</code>, the <a href="https://ggplot2.tidyverse.org/reference/labs.html">“Modify axis, legend, and plot labels”</a> reference page within the <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> site, part of the <a href="https://www.tidyverse.org/">Tidyverse</a>.</p>
 <hr />
 <p>This vignette is an update of the blog posts:</p>
 <ul>
-<li><p><a href="http://bayesball.blogspot.ca/2013/06/major-league-baseball-run-scoring.html">Major League Baseball run scoring trends with R’s Lahman package</a></p></li>
-<li><p><a href="http://bayesball.blogspot.ca/2015/01/run-scoring-trends-using-shiny-to.html">Run scoring trends: using Shiny to create dynamic charts and tables in R</a></p></li>
+<li><p><a href="https://bayesball.blogspot.com/2013/06/major-league-baseball-run-scoring.html">Major League Baseball run scoring trends with R’s Lahman package</a></p></li>
+<li><p><a href="https://bayesball.blogspot.com/2015/01/run-scoring-trends-using-shiny-to.html">Run scoring trends: using Shiny to create dynamic charts and tables in R</a></p></li>
 <li><p><a href="https://github.com/MonkmanMH/MLBrunscoring_shiny">github.com/MonkmanMH/MLBrunscoring_shiny</a></p></li>
 </ul>
 </div>

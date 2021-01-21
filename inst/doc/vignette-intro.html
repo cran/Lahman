@@ -12,10 +12,74 @@
 
 <meta name="author" content="Martin Monkman" />
 
-<meta name="date" content="2020-06-07" />
+<meta name="date" content="2021-01-20" />
 
 <title>Vignette introduction</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
+  }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
@@ -215,7 +279,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Vignette introduction</h1>
 <h4 class="author">Martin Monkman</h4>
-<h4 class="date">2020-06-07</h4>
+<h4 class="date">2021-01-20</h4>
 
 
 
@@ -255,9 +319,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><p>the book makes extensive use of the package to explain “the empirical Bayesian approach to estimation, credible intervals, A/B testing, mixture models, and other methods, all through the example of baseball batting averages.”</p></li>
 <li><p>the <a href="http://varianceexplained.org/r/empirical-bayes-book/">blog introduction to the book</a></p></li>
 </ul>
-<p>Hadley Wickham and Garrett Grolemund (2017) <a href="http://r4ds.had.co.nz/"><em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em></a> (O’Reilly)</p>
+<p>Hadley Wickham and Garrett Grolemund (2017) <a href="https://r4ds.had.co.nz/"><em>R for Data Science: Import, Tidy, Transform, Visualize, and Model Data</em></a> (O’Reilly)</p>
 <ul>
-<li><a href="http://r4ds.had.co.nz/transform.html#counts">Section 5.6.3, “Counts”</a></li>
+<li><a href="https://r4ds.had.co.nz/transform.html#counts">Section 5.6.3, “Counts”</a></li>
 </ul>
 </div>
 <div id="articles-blog-entries-and-course-materials" class="section level3">
@@ -266,12 +330,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <ul>
 <li>This is lecture 16 from <a href="https://www3.nd.edu/~steve/computing_with_data/">Computing with Data Seminar</a></li>
 </ul>
-<p>Kris Eberwein (2015-09-30) <a href="https://www.r-bloggers.com/hacking-the-new-lahman-package-4-0-1-with-r-studio/">“Hacking The New Lahman Package 4.0-1 with R-Studio”</a> (via [r-bloggers.com])</p>
+<p>Kris Eberwein (2015-09-30) <a href="https://www.r-bloggers.com/2015/09/hacking-the-new-lahman-package-4-0-1-with-r-studio/">“Hacking The New Lahman Package 4.0-1 with R-Studio”</a> (via [r-bloggers.com])</p>
 <p>Michael Lopez (2016) <a href="https://statsbylopez.com/276labs/">Lab materials for Skidmore College MA 276, “Sports and Statistics”</a></p>
 <ul>
 <li><a href="https://statsbylopez.com/stats-sports-class/">course reference page</a></li>
 </ul>
-<p>Bill Petti (2015-09-21) <a href="https://www.fangraphs.com/tht/a-short-ish-introduction-to-using-r-for-baseball-research/">A Short(-ish) Introduction to Using R Packages for Baseball Research</a></p>
+<p>Bill Petti (2015-09-21) <a href="https://tht.fangraphs.com/a-short-ish-introduction-to-using-r-for-baseball-research/">A Short(-ish) Introduction to Using R Packages for Baseball Research</a></p>
 <p><strong><em>Exploring Baseball Data with R</em> blog</strong></p>
 <p>Jim Albert (2018-12-24) <a href="https://baseballwithr.wordpress.com/2018/12/24/the-vanishing-300-batting-average/">The Vanishing 300 Batting Average</a></p>
 <p>Jim Albert (2015-01-05) <a href="https://baseballwithr.wordpress.com/2015/01/05/a-graph-of-a-batting-average/">A Graph of a Batting Average</a></p>
