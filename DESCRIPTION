@@ -1,8 +1,8 @@
 Package: Lahman
 Type: Package
 Title: Sean 'Lahman' Baseball Database
-Version: 8.0-1
-Date: 2021-01-20
+Version: 9.0-0
+Date: 2021-04-08
 Authors@R: c(person(given = "Michael", family = "Friendly", role="aut", email="friendly@yorku.ca"), 
         person(given ="Chris", family = "Dalzell", role=c("cre","aut"), email="cdalzell@gmail.com"),
         person(given ="Martin", family = "Monkman", role="aut"),
@@ -31,10 +31,11 @@ License: GPL
 URL: https://CRAN.R-project.org/package=Lahman
 LazyLoad: yes
 LazyData: yes
+LazyDataCompression: xz
 BugReports: https://github.com/cdalzell/Lahman/issues
 Repository: CRAN
 NeedsCompilation: no
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-Packaged: 2021-01-21 02:01:32 UTC; dz
-Date/Publication: 2021-01-21 10:40:17 UTC
+Packaged: 2021-04-09 01:54:46 UTC; dz
+Date/Publication: 2021-04-09 06:10:06 UTC

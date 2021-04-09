@@ -9,11 +9,11 @@ outdir <- "D:/Dev/R/Lahman/data"
 setwd(indir)
 
 # local data location
-dataFile <- "../source-data/baseballdatabank-master.zip"
+dataFile <- "../source-data/baseballdatabank-2021.2.zip"
 
 # no need to download if we already have the file
 if (!file.exists(dataFile)) {
-  zipfile <- "https://github.com/chadwickbureau/baseballdatabank/archive/v2020.1.zip"
+  zipfile <- "https://github.com/chadwickbureau/baseballdatabank/archive/refs/tags/v2021.2.zip"
   download.file(zipfile, dataFile)
 }
 
@@ -24,7 +24,7 @@ unzip(dataFile, exdir=indir)
 #Master <- read.csv(file="Master.csv", header=TRUE, stringsAsFactors=FALSE)
 
 # set indir to the directories the csv are extracted to
-indir <- paste0(indir, "/baseballdatabank-master/core")
+indir <- paste0(indir, "/baseballdatabank-2021.2/core")
 setwd(indir)
 
 (files <- list.files(path=getwd(), pattern="*.csv$"))
