@@ -33,8 +33,8 @@ and \code{ggplot2} for graphics.
 \tabular{ll}{
 Package: \tab Lahman\cr
 Type: \tab Package\cr
-Version: \tab 10.0-0\cr
-Date: \tab 2022-04-07\cr
+Version: \tab 11.0-0\cr
+Date: \tab 2023-04-16\cr
 License: \tab GPL version 2 or newer\cr
 LazyLoad: \tab yes\cr
 LazyData: \tab yes\cr
@@ -123,7 +123,7 @@ Maintainer: Chris Dalzell <cdalzell@gmail.com>
 %%  ~~ possibly secondary sources and usages ~~
 %}
 \source{
-Lahman, S. (2022) Lahman's Baseball Database, 1871-2021, Main page, \url{https://www.seanlahman.com/baseball-archive/statistics/}
+Lahman, S. (2023) Lahman's Baseball Database, 1871-2022, Main page, \url{https://www.seanlahman.com/baseball-archive/statistics/}
 
 
 }
