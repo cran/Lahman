@@ -100,7 +100,7 @@ table(payroll$WSWin, useNA="ifany")
 ## ----payroll-boxplot, fig.width=7---------------------------------------------
 boxplot(payroll ~ yearID, data=payroll, ylab="Payroll ($ millions)")
 
-## ---- payroll-Boxplot, fig.width=7--------------------------------------------
+## ----payroll-Boxplot, fig.width=7---------------------------------------------
 out <- car::Boxplot(payroll ~ yearID, data=payroll,
              id=list(n=1, 
                      labels=as.character(payroll$teamID)), 
@@ -132,12 +132,12 @@ infl.lm <- lm(inflation ~ year, data=inflation.df)
 payroll <- payroll %>%
   mutate(payrollStd = payroll / (coefs[1] + coefs[2] * yearID))
 
-## ---- payroll-Boxplot2, fig.width=7-------------------------------------------
+## ----payroll-Boxplot2, fig.width=7--------------------------------------------
 car::Boxplot(payrollStd ~ yearID, data=payroll,
              id = list(labels=as.character(payroll$teamID)), 
              ylab="Payroll (1985-adjusted $ millions)")
 
-## ---- payroll-winners-plot, fig.width=7---------------------------------------
+## ----payroll-winners-plot, fig.width=7----------------------------------------
 Cols <- ifelse(payroll$WSWin=='Y', "red", gray(.7, alpha=0.5))
 with(payroll, {
   plot(payrollStd ~ jitter(yearID, 0.5), 

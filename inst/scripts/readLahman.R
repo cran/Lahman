@@ -1,4 +1,6 @@
 # Script to read the Lahman data base .csv files & create Rdata files
+library("archive")
+source("D:/Dev/Projects/Lahman/inst/scripts/dataMapping.R")
 
 # directory where the .csv files will be created
 indir <- "D:/Dev/Projects/Lahman/source-data"
@@ -9,29 +11,25 @@ outdir <- "D:/Dev/Projects/Lahman/data"
 setwd(indir)
 
 # local data location
-dataFile <- "../source-data/baseballdatabank-2023.1.zip"
+dataFile <- "lahman_1871-2023_csv.7z"
 
 # no need to download if we already have the file
 if (!file.exists(dataFile)) {
-  zipfile <- "https://github.com/chadwickbureau/baseballdatabank/archive/refs/tags/v2023.1.zip"
+  # dataset url obtained from http://www.seanlahman.com/
+  zipfile <- "https://www.dropbox.com/scl/fi/hy0sxw6gaai7ghemrshi8/lahman_1871-2023_csv.7z?rlkey=edw1u63zzxg48gvpcmr3qpnhz&dl=1"
   download.file(zipfile, dataFile)
 }
 
-unzip(dataFile, exdir=indir)
+archive_extract(dataFile, dir=indir)
 
 # Read the Lahman MLB .csv files and create .RData and .Rd files
-#Batting <- read.csv(file="Batting.csv", header=TRUE, stringsAsFactors=FALSE, na.strings="")
-#People <- read.csv(file="People", header=TRUE, stringsAsFactors=FALSE)
-
-
-indir <- paste0(indir, "/baseballdatabank-2023.1")
+indir <- paste0(indir, "/lahman_1871-2023_csv")
 setwd(indir)
 
-directoryList = c(paste0(getwd(), "/core"), paste0(getwd(), "/contrib")) 
-(files <- list.files(directoryList, pattern="csv", full.names=TRUE))
+files <- list.files(indir, pattern="csv", full.names=TRUE)
 
 for (i in 1:length(files)) {
-	inp <- read.csv(file=files[i], header=TRUE, stringsAsFactors=FALSE, na.strings="")
+	inp <- read.csv(file=files[i], header=TRUE, stringsAsFactors=FALSE, na.strings="", encoding="latin1")
 	cat("Read:", files[i], "\trows: ", nrow(inp), " cols: ", ncol(inp), "\n")
 
 	# make a few variables factors
@@ -49,9 +47,6 @@ for (i in 1:length(files)) {
 	name <- sub(".csv", "", basename(files[i]))
 	assign(name, inp)
 }
-
-# fix column names or perform any needed data cleanup here
-#colnames(HallOfFame)[2] <- 'yearID'
 
 # HallOfFame uses both empty strings and "NA"
 HallOfFame[HallOfFame == 'NA'] <- NA
@@ -83,49 +78,48 @@ People <- within(People, {
    throws = factor(throws)
 })
 
-#* checking data for non-ASCII characters ... WARNING
-#  Warning: found non-ASCII string(s)
-#  'named Guillermo VelC!zquez' in object 'Master'
-#  'Martmn Magdaleno Dihigo (Llanos)' in object 'Master'
-tools:::showNonASCII(paste0(indir, '/core/People.csv'))
-
-# then, fix manually, because I don't know an R way ...
+# do some data remapping due to minor schema drift
+Batting <- mapBatting(Batting)
+HallOfFame <- mapHallOfFame(HallOfFame)
+HomeGames <- mapHomeGames(HomeGames)
+Parks <- mapParks(Parks)
+People <- mapPeople(People)
 
 setwd(outdir)
 
 # compress mightily on save
 #options(save.defaults=list(compress="xz", compression_level=9))
 
-save(AllstarFull,         file="AllstarFull.RData", version = 2)        
-save(Appearances,         file="Appearances.RData", version = 2)        
-save(AwardsManagers,      file="AwardsManagers.RData", version = 2)     
-save(AwardsPlayers,       file="AwardsPlayers.RData", version = 2)      
-save(AwardsShareManagers, file="AwardsShareManagers.RData", version = 2)
-save(AwardsSharePlayers,  file="AwardsSharePlayers.RData", version = 2) 
-save(Batting,             file="Batting.RData", version = 2)            
-save(BattingPost,         file="BattingPost.RData", version = 2)
-save(CollegePlaying,      file="CollegePlaying.RData", version = 2)
-save(Fielding,            file="Fielding.RData", version = 2)           
-save(FieldingOF,          file="FieldingOF.RData", version = 2)
-save(FieldingOFsplit,     file="FieldingOFsplit.RData", version = 2)
-save(FieldingPost,        file="FieldingPost.RData", version = 2)       
-save(HallOfFame,          file="HallOfFame.RData", version = 2)         
-save(HomeGames,           file="HomeGames.RData", version = 2)             
-save(Managers,            file="Managers.RData", version = 2)           
-save(ManagersHalf,        file="ManagersHalf.RData", version = 2)
-save(Parks,               file="Parks.RData", version = 2)
-save(People,              file="People.RData", version = 2)
-save(Pitching,            file="Pitching.RData", version = 2)           
-save(PitchingPost,        file="PitchingPost.RData", version = 2)       
-save(Salaries,            file="Salaries.RData", version = 2)           
-save(Schools,             file="Schools.RData", version = 2)
-save(SeriesPost,          file="SeriesPost.RData", version = 2)         
-save(Teams,               file="Teams.RData", version = 2)              
-save(TeamsFranchises,     file="TeamsFranchises.RData", version = 2)    
-save(TeamsHalf,           file="TeamsHalf.RData", version = 2)
+save(AllstarFull,         file="AllstarFull.RData", version = 3)        
+save(Appearances,         file="Appearances.RData", version = 3)        
+save(AwardsManagers,      file="AwardsManagers.RData", version = 3)     
+save(AwardsPlayers,       file="AwardsPlayers.RData", version = 3)      
+save(AwardsShareManagers, file="AwardsShareManagers.RData", version = 3)
+save(AwardsSharePlayers,  file="AwardsSharePlayers.RData", version = 3) 
+save(Batting,             file="Batting.RData", version = 3)
+save(BattingPost,         file="BattingPost.RData", version = 3)
+save(CollegePlaying,      file="CollegePlaying.RData", version = 3)
+save(Fielding,            file="Fielding.RData", version = 3)
+save(FieldingOF,          file="FieldingOF.RData", version = 3)
+save(FieldingOFsplit,     file="FieldingOFsplit.RData", version = 3)
+save(FieldingPost,        file="FieldingPost.RData", version = 3)
+save(HallOfFame,          file="HallOfFame.RData", version = 3)
+save(HomeGames,           file="HomeGames.RData", version = 3)
+save(Managers,            file="Managers.RData", version = 3)
+save(ManagersHalf,        file="ManagersHalf.RData", version = 3)
+save(Parks,               file="Parks.RData", version = 3)
+save(People,              file="People.RData", version = 3)
+save(Pitching,            file="Pitching.RData", version = 3)
+save(PitchingPost,        file="PitchingPost.RData", version = 3)
+save(Salaries,            file="Salaries.RData", version = 3)
+save(Schools,             file="Schools.RData", version = 3)
+save(SeriesPost,          file="SeriesPost.RData", version = 3)
+save(Teams,               file="Teams.RData", version = 3)
+save(TeamsFranchises,     file="TeamsFranchises.RData", version = 3)
+save(TeamsHalf,           file="TeamsHalf.RData", version = 3)
 
-# version currently still defaults to 2 here, but setting for backwards compatibility
-tools::resaveRdaFiles(outdir, compress="xz", compression_level=9, version = 2)
+# version currently still defaults to 2 here
+tools::resaveRdaFiles(outdir, compress="xz", compression_level=9, version = 3)
 
 # only ran this once, since all .Rd files were extensively edited
 # TODO: come up with a better way to automatically update Rd files with count/year/etc updates
