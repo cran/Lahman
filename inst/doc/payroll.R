@@ -86,9 +86,9 @@ payroll <- merge(payroll, Teams[,c("yearID", "teamID","name", "WSWin")],
 sample_n(payroll, 10)
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  left_join(payroll, Teams[,c("yearID", "teamID","name", "WSWin")],
-#            by=c("yearID", "teamID")) %>%
-#    sample_n(10)
+# left_join(payroll, Teams[,c("yearID", "teamID","name", "WSWin")],
+#           by=c("yearID", "teamID")) %>%
+#   sample_n(10)
 
 ## ----make-WSWin-factor--------------------------------------------------------
 payroll <- payroll %>%

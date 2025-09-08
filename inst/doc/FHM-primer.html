@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Daniel J Eck" />
+
+<meta name="date" content="2025-05-29" />
+
+<title>Primer for Full House Modeling</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Primer for Full House Modeling</h1>
+<h4 class="author">Daniel J Eck</h4>
+<h4 class="date">2025-05-29</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#ingredients-for-full-house-modeling" id="toc-ingredients-for-full-house-modeling"><span class="toc-section-number">2</span> Ingredients for Full House
+Modeling</a>
+<ul>
+<li><a href="#probability-integral-transform" id="toc-probability-integral-transform"><span class="toc-section-number">2.1</span> Probability Integral
+Transform</a></li>
+<li><a href="#order-statistics" id="toc-order-statistics"><span class="toc-section-number">2.2</span> Order Statistics</a></li>
+</ul></li>
+<li><a href="#the-core-of-full-house-modeling" id="toc-the-core-of-full-house-modeling"><span class="toc-section-number">3</span> The Core of Full House Modeling</a>
+<ul>
+<li><a href="#simple-setup-one-source-population-and-system" id="toc-simple-setup-one-source-population-and-system"><span class="toc-section-number">3.1</span> Simple Setup: one source
+population and system</a></li>
+<li><a href="#more-general-setup-multiple-source-populations-and-systems" id="toc-more-general-setup-multiple-source-populations-and-systems"><span class="toc-section-number">3.2</span> More General Setup: multiple
+source populations and systems</a></li>
+</ul></li>
+<li><a href="#example-comparing-batting-averages-across-eras" id="toc-example-comparing-batting-averages-across-eras"><span class="toc-section-number">4</span> Example: Comparing Batting Averages
+Across Eras</a>
+<ul>
+<li><a href="#z-scores" id="toc-z-scores"><span class="toc-section-number">4.1</span> Z-scores</a></li>
+<li><a href="#full-house-modeling" id="toc-full-house-modeling"><span class="toc-section-number">4.2</span> Full House Modeling</a></li>
+</ul></li>
+<li><a href="#discussion" id="toc-discussion"><span class="toc-section-number">5</span> Discussion</a></li>
+<li><a href="#references" id="toc-references"><span class="toc-section-number">6</span> References</a></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>This primer is intended to develop the statistical intuition which
+underlies the mechanics of <a href="https://projecteuclid.org/journals/annals-of-applied-statistics/volume-19/issue-2/Comparing-baseball-players-across-eras-via-novel-Full-House-Modeling/10.1214/24-AOAS1992.short">Full
+House Modeling</a>. The intention is that this document can be followed
+by a motivated individual with some formal exposure to mathematical
+statistical concepts. Conceptually, Full House Modeling makes a
+connection between distributions of observed measurements for
+individuals in a system (e.g. professional baseball league) and latent
+aptitudes in a large source population (e.g. talent pool). This
+connection involves a formal pairing of latent aptitudes with
+achievement so that an individual’s observed achievement is a function
+of expressed latent aptitude. Often, studies involving Full House
+Modeling focus on systems comprising individuals with the highest
+aptitude, with primary interest in the top performers (e.g. the most
+talented baseball players in history).</p>
+<p>The two main ingredients that make Full House Modeling work are <a href="https://en.wikipedia.org/wiki/Probability_integral_transform">probability
+integral transformation</a> and <a href="https://en.wikipedia.org/wiki/Order_statistic">order
+statistics</a>.</p>
+<p>In this primer, we illustrate Full House Modeling through a
+comparison of batting averages across eras, showing how latent aptitude
+can differ from raw achievement for legendary players like Tony Gwynn
+and Ty Cobb. A larger suite of era-adjusted baseball stats, including
+broader applications to baseball history, is available at</p>
+<p><a href="https://eckeraadjustment.web.illinois.edu/" class="uri">https://eckeraadjustment.web.illinois.edu/</a></p>
+</div>
+<div id="ingredients-for-full-house-modeling" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Ingredients for Full
+House Modeling</h1>
+<div id="probability-integral-transform" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Probability Integral
+Transform</h2>
+<p>Suppose that we have random variable <span class="math inline">\(Y\)</span> from some cumulative distribution
+function <span class="math inline">\(F\)</span>. Then the probability
+integral transform states that the transformed variable <span class="math inline">\(F(Y)\)</span> follows a uniform distribution on
+the interval <span class="math inline">\([0, 1]\)</span>, i.e., <span class="math inline">\(F(Y) \sim \text{Uniform}(0,1)\)</span>.</p>
+<p>We can confirm this result via simulation. Suppose that <span class="math inline">\(Y \sim N(0,1)\)</span>, the standard normal
+distribution. The code below generates <span class="math inline">\(B =
+1,000\)</span> realizations of <span class="math inline">\(Y\)</span>,
+transforms them using <span class="math inline">\(F =
+\texttt{pnorm}\)</span>, and stores the result in the vector .</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>B <span class="ot">=</span> <span class="fl">1e3</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>u <span class="ot">=</span> <span class="fu">pnorm</span>(<span class="fu">rnorm</span>(B))</span></code></pre></div>
+<p>To verify that the values in are approximately uniformly distributed,
+we construct a <a href="https://en.wikipedia.org/wiki/Q%E2%80%93Q_plot">Q-Q plot</a>,
+which compares the quantiles of the observed values in to the
+theoretical quantiles of the <span class="math inline">\(\text{Uniform}(0,1)\)</span> distribution. For the
+theoretical quantiles, we use the plotting positions <span class="math inline">\(i/(B+1)\)</span>, which avoid the extremes of 0
+and 1 and are commonly used in Q-Q plotting for Uniform distributions.
+If the values in follow a uniform distribution, the Q-Q plot will
+closely follow a 45-degree reference line, indicating good agreement
+between the empirical and theoretical quantiles. That is exactly what we
+observe.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>u_true <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>B <span class="sc">/</span> (B<span class="sc">+</span><span class="dv">1</span>) <span class="co"># almost true uniform quantiles (slight bias in tails)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">plot</span>(u_true, <span class="fu">sort</span>(u), <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.25</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Uniform Q-Q Plot&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Theoretical Quantiles&quot;</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Observed Quantiles&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">lines</span>(u_true, u_true, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- -->
+</p>
+<p>The probability integral transform also allows a reverse
+relationship. Let <span class="math inline">\(F^{-1}\)</span> denote the
+inverse cumulative distribution function, i.e. <span class="math inline">\(F^{-1}(F(Y)) = Y\)</span>. Then we can start with
+a realization <span class="math inline">\(U \sim
+\text{Uniform}(0,1)\)</span> and transform it into a realization of
+<span class="math inline">\(Y\)</span> via <span class="math display">\[
+Y = F^{-1}(U).
+\]</span></p>
+</div>
+<div id="order-statistics" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Order Statistics</h2>
+<p>Now suppose that we have a random sample <span class="math inline">\(Y_1, \ldots, Y_n\)</span> realized as <span class="math inline">\(n\)</span> independent and identically distributed
+(iid) observations from some distribution <span class="math inline">\(F\)</span> with probability density function <span class="math inline">\(f\)</span>. This sample of observations can be
+reordered from smallest to largest <span class="math inline">\(Y_{(1)}
+&lt; \cdots &lt; Y_{(n)}\)</span>. Each of these order statistics <span class="math inline">\(Y_{(r)}\)</span>, <span class="math inline">\(r =
+1,\ldots,n\)</span> has its own cumulative distribution function <span class="math inline">\(F_{Y_{(r)}}\)</span> and corresponding probability
+density function <span class="math inline">\(f_{Y_{(r)}}\)</span>. These
+are given by: <span class="math display">\[\begin{align*}
+  F_{Y_{(r)}}(y) &amp;= \sum_{j=r}^n \binom{n}{r}
+\left[F(y)\right]^j\left[1-F(y)\right]^{n-j}, \\
+  f_{Y_{(r)}}(y) &amp;= \frac{n!}{(r-1)!(n-r)!} f(y)
+\left[F(y)\right]^{r-1}\left[1-F(y)\right]^{n-r},
+\end{align*}\]</span> where <span class="math inline">\(\binom{n}{r}\)</span> is the <a href="https://en.wikipedia.org/wiki/Binomial_coefficient">binomial
+coefficient</a>. As a simple example, consider the maximum order
+statistic by setting <span class="math inline">\(r = n\)</span>. In this
+case, the cumulative distribution function and probability density
+function simplify as follows: <span class="math display">\[\begin{align*}
+  F_{Y_{(n)}}(y) = \left[F(y)\right]^n, \qquad \text{and} \qquad
+  f_{Y_{(n)}}(y) = nf(y) \left[F(y)\right]^{n-1}.
+\end{align*}\]</span></p>
+<p>We can verify this distributional result through simulation. Let
+<span class="math inline">\(n = 100\)</span> denote the sample size and
+we will generate data according to the standard normal distribution. In
+general the distribution of the maximum value is <span class="math inline">\(\left[F(y)\right]^{n}\)</span>.</p>
+<p>To simulate from this distribution, we generate <span class="math inline">\(B = 1000\)</span> samples of size <span class="math inline">\(n\)</span> from the standard normal, compute their
+maximums, apply the CDF (i.e., <span class="math inline">\(F =
+\texttt{pnorm}\)</span>), and raise to the power <span class="math inline">\(n\)</span>, yielding values distributed as <span class="math inline">\(\left[F(Y_{(n)})\right]^n\)</span>. The
+probability integral transform implies that these values should follow a
+<span class="math inline">\(\text{Uniform}(0,1)\)</span> distribution.
+We can assess this using a Q-Q plot, comparing the empirical quantiles
+from these transformed maximums to the theoretical quantiles of a <span class="math inline">\(\texttt{Uniform}(0,1)\)</span> distribution.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">100</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>u_obs <span class="ot">=</span> <span class="fu">sort</span>(<span class="fu">unlist</span>(<span class="fu">replicate</span>(B, <span class="fu">pnorm</span>(<span class="fu">max</span>(<span class="fu">rnorm</span>(n)))<span class="sc">^</span><span class="dv">100</span>)))</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">plot</span>(u_true, u_obs, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">cex =</span> <span class="fl">0.25</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Uniform Q-Q Plot for Maximum of 100 Normals&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Theoretical Quantiles&quot;</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">&quot;Observed Quantiles&quot;</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">lines</span>(u_true,u_true, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="the-core-of-full-house-modeling" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> The Core of Full House
+Modeling</h1>
+<p>Full House Modeling builds on the concepts of the probability
+integral transform and order statistics to connect a latent distribution
+of aptitude <span class="math inline">\(X\)</span> to observed
+achievement <span class="math inline">\(Y\)</span>. A key feature of the
+framework is that aptitudes are defined for all <span class="math inline">\(N\)</span> individuals in a source population, but
+only a subset of size <span class="math inline">\(n\)</span> is selected
+to form the system for which achievement is observed.</p>
+<div id="simple-setup-one-source-population-and-system" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Simple Setup: one
+source population and system</h2>
+<p>In its simplest form, we assume that the individuals with the highest
+latent aptitudes are selected into the system. That is, achievement
+<span class="math inline">\(Y\)</span> is only observed for the <span class="math inline">\(n\)</span> individuals with the highest latent
+aptitudes: <span class="math inline">\(X_{(N - n + 1)}, X_{(N - n + 2)},
+\ldots, X_{(N)}\)</span>.</p>
+<p>To connect the distribution of aptitude to that of achievement, we
+impose a rank-preserving pairing. Under this pairing, the individual
+with the highest achievement is assumed to have the highest latent
+aptitude, so the top pair is <span class="math inline">\((X_{(N)},
+Y_{(n)})\)</span>; the second-highest achiever is paired with the
+second-highest aptitude <span class="math inline">\((X_{(N-1)},
+Y_{(n-1)})\)</span>, and so on. In general, for each <span class="math inline">\(r = 1, \ldots, n\)</span>, we pair: <span class="math display">\[
+(X_{(N - n + r)}, Y_{(r)}).
+\]</span> This setup allows us to generate achievement values from
+latent aptitudes using the composition of distribution functions: <span class="math display">\[\begin{equation}
+  Y_{(r)} = F_{Y_{(r)}}^{-1} \left[ F_{X_{(N - n + r)}} \left( X_{(N - n
++ r)} \right) \right],
+\end{equation}\]</span> where <span class="math inline">\(F_{X_{(N - n +
+r)}}\)</span> and <span class="math inline">\(F_{Y_{(r)}}\)</span>
+denote the cumulative distribution functions of the corresponding order
+statistics.</p>
+<p>This generation rule mirrors the logic of the probability integral
+transform: we first compute the percentile of the latent aptitude <span class="math inline">\(X_{(N-n+r)}\)</span> within its distribution using
+<span class="math inline">\(F_{X_{(N - n + r)}} \left( X_{(N - n + r)}
+\right)\)</span>, which yields a value on the <span class="math inline">\([0,1]\)</span> scale. This quantity can be
+interpreted as a draw from a uniform random variable. We then map this
+percentile into the achievement scale using the inverse cumulative
+distribution function <span class="math inline">\(F_{Y_{(r)}}^{-1}\)</span>, producing the
+corresponding value <span class="math inline">\(Y_{(r)}\)</span>. In
+this way, each achievement value preserves the rank structure of its
+paired latent aptitude through distributional matching.</p>
+<p>Conversely, we can recover latent aptitude scores from observed
+achievement by inverting the relationship: <span class="math display">\[\begin{equation}
+  X_{(N - n + r)} = F_{X_{(N - n + r)}}^{-1} \left[ F_{Y_{(r)}} \left(
+Y_{(r)} \right) \right].
+\end{equation}\]</span></p>
+<p>This is the core of Full House Modeling in the setting where
+achievement is observed only for the most capable individuals from a
+larger population. The key insight is that matching the marginal
+distributions of ranked latent and observed variables provides a
+principled way to translate between aptitude and achievement.</p>
+</div>
+<div id="more-general-setup-multiple-source-populations-and-systems" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> More General Setup:
+multiple source populations and systems</h2>
+<p>The previous generation rules for <span class="math inline">\(Y_{(r)}\)</span> and <span class="math inline">\(X_{(N - n + r)}\)</span> can be extended to allow
+for multiple source populations and systems indexed by <span class="math inline">\(i\)</span>. Let</p>
+<ul>
+<li><span class="math inline">\(N_i\)</span> be the size of source
+population <span class="math inline">\(i\)</span>,</li>
+<li><span class="math inline">\(n_i\)</span> be the size of system <span class="math inline">\(i\)</span>,</li>
+<li><span class="math inline">\(F_{Y_{i,(r)}}\)</span> be the cumulative
+distribution function for achievement of individuals in system <span class="math inline">\(i\)</span>.</li>
+</ul>
+<p>Under this setup <span class="math inline">\(Y_{(r)}\)</span> becomes
+<span class="math display">\[\begin{equation}
+  Y_{i,(r)} = F_{Y_{i,(r)}}^{-1} \left[ F_{X_{(N_i - n_i + r)}} \left(
+X_{(N_i - n_i + r)} \right) \right],
+\end{equation}\]</span> and <span class="math inline">\(X_{(N - n +
+r)}\)</span> becomes <span class="math display">\[\begin{equation}
+\label{eq:genXi}
+  X_{(N_i - n_i + r)} = F_{X_{(N_i - n_i + r)}}^{-1} \left[
+F_{Y_{i,(r)}} \left( Y_{i,(r)} \right) \right].
+\end{equation}\]</span> Notice that the cumulative distribution function
+<span class="math inline">\(F_X\)</span> is not assumed to change across
+source populations. The only differences across the source populations
+is that the sizes differ. This is for studies where distributions of
+aptitude is thought not to change but how aptitude is expressed
+changes.</p>
+</div>
+</div>
+<div id="example-comparing-batting-averages-across-eras" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Example: Comparing
+Batting Averages Across Eras</h1>
+<p>We now demonstrate Full House Modeling using a simple comparison
+between Ty Cobb’s MLB-leading batting average in 1911 and Tony Gwynn’s
+MLB-leading batting average in 1997. This comparison served as the
+motivating example for the development of Full House Modeling’s working
+mechanics in the <a href="https://arxiv.org/abs/2207.11332">original
+Full House Modeling paper</a> (see the last paragraph of Section 2 at
+the linked reference). We first load the necessary R packages and
+perform some basic preprocessing.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># software</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(Lahman)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#library(devtools)</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#devtools::install_github(repo = &quot;DEck13/fullhouse&quot;)</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#library(fullhouse)</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># version numbers</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;Lahman&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">## [1] &#39;13.0.0&#39;</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## [1] &#39;2.0.0&#39;</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#packageVersion(&quot;fullhouse&quot;)</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># data preprocessing</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>foo <span class="ot">=</span> Batting <span class="sc">%&gt;%</span> </span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="co"># get years 1911 and 1997</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1911</span>, <span class="dv">1997</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>  <span class="co"># compute batting average</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">BA =</span> <span class="fu">round</span>(H<span class="sc">/</span>AB, <span class="dv">3</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>  <span class="co"># get player names</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>  <span class="fu">left_join</span>(People <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">paste</span>(nameFirst, nameLast, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>  <span class="co"># subset columns</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>  <span class="fu">select</span>(name, yearID, AB, BA) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>  <span class="co"># only consider full-time players</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>  <span class="fu">filter</span>(AB <span class="sc">&gt;=</span> <span class="dv">320</span>)</span></code></pre></div>
+<p>We see that Ty Cobb’s batting average was much higher than Tony
+Gwynn’s.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>max_BA <span class="ot">=</span> foo <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">name =</span> name[<span class="fu">which</span>(BA <span class="sc">==</span> <span class="fu">max</span>(BA))], <span class="at">max_BA =</span> <span class="fu">max</span>(BA), <span class="at">.by =</span> yearID)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>max_BA</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="do">##   yearID       name max_BA</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="do">## 1   1997 Tony Gwynn  0.372</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="do">## 2   1911    Ty Cobb  0.420</span></span></code></pre></div>
+<p>However, distributions of batting averages among full-time players
+have changed across eras. Here we define full-time players as those with
+320 ABs (about two ABs per game, as defined on page 105 in Stephen Jay
+Gould’s 1996 book <a href="https://archive.org/details/fullhouse00step">Full House: The
+Spread of Excellence from Plato to Darwin</a>). Both the means and
+standard deviations were higher in 1911.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>means_sds <span class="ot">=</span> foo <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_BA =</span> <span class="fu">mean</span>(BA), <span class="at">sd_BA =</span> <span class="fu">sd</span>(BA), <span class="at">.by =</span> yearID)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>means_sds</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="do">##   yearID mean_BA   sd_BA</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="do">## 1   1997  0.2769 0.02869</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="do">## 2   1911  0.2835 0.03908</span></span></code></pre></div>
+<p>A simple visual comparison reveals that the 1911 distribution was
+more heavy-tailed, although both distributions appear approximately
+normal (a Shapiro Wilk test rejects normality for the 1911 distribution
+when testing at <span class="math inline">\(\alpha = 0.05\)</span>).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>foo <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> BA, <span class="at">color =</span> <span class="fu">factor</span>(yearID)) <span class="sc">+</span> </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span> </span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color =</span> <span class="st">&quot;yearID&quot;</span>)</span></code></pre></div>
+<p><img role="img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAAA0lBMVEUAAAAAADoAAGYAOpAAZrYAv8Q6AAA6ADo6AGY6OpA6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmZmZmkJBmtv9uTU1uTW5uTY5ubo5ubqtuq+SOTU2OTW6OTY6Obk2OyP+QOgCQOjqQkDqQtpCQ27aQ2/+rbk2rbm6rbo6ryKur5OSr5P+2ZgC225C2/9u2///Ijk3I///bkDrb/7bb/9vb///kq27k///r6+v4dm3/tmb/yI7/25D/29v/5Kv//7b//8j//9v//+T///8UPindAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAcLklEQVR4nO2dCZvcxnVFSYmXYcKRaGah7Fiyw3FsSU5Ih+IkkgbDMbf+/38pjV6x1PpQyyv0vR+/GQwap19V4bDQ6AX9YMMwivOgdgMYxhUKyqgOBWVUh4IyqkNBGdWhoIzqCAS91YqwZUUQESMOBS2B6G0ZBS2IsGVFEAoqRdiyIggFlSJsWRGEgkoRtqwIQkGlCFtWBKGgUoQtK4JQUCnClhVBKKgUYcuKIBRUirBlRRAKKkXYsiIIBZUibFkRhIJKEbasCEJBpQhbVgShoFKELSuCUFApwpYVQSioFGHLiiAUVIqwZUUQCipFkpRBn9RV9I4ZBS2ILC1zdtPpKAUVMOJQ0EOmTtoVpaACRpzLFhTnGG5MVUXGqEUoqBSJYE5WuhAsrbKIUYtQUCkSygznSwpahhHn8gQdH82dCIxrKaiAEefiBEUEAuNaCipgxLkwQWcnQ25kunVglSSMWoSCShE/g0hkvn1IlTSMWoSCShEvg2jEQFBQCipEcthmYCiogBHnggSFpIwBoqACRhwK6smcoqACRpzLERSyMnOMggoYcSioLzOOggoYcS5GUEjLzEAKKmDEiRT0ttmgOHghyePlKZcyg0JeZopyBhUw4lyIoFhQZspSUAEjDgX1ZwJTUAEjzmUIikVlJjQFFTDiUFB/JjQFFTDiXISgWFhmzFNQASMOBQ3ImKegAkacSxAUi8uM7oGCChhxKGhIRvdAQQWMOBcgKJaXGd0FBRUw4lDQkIzugoIKGHHWLyhSlBneCQUVMOJQ0KAM74SCChhxVi8okpQZ3gsFFTDiUNCwDO6GggoYcShoWAZ3Q0EFjDhrFxSJygzuh4IKGHEoaFgG90NBBYw4KxcUycqc74mCChhxKGhgzvdEQQWMOBQ0MOd7oqACRpx1C4qEZU73RUEFjDgUNDSn+6KgAkacVQuKlGVOd0ZBBYw4FDQ0pzujoAJGHAoanOO9UVABI86aBUXaMse7o6ACRhwKGpzj3VFQASMOBQ3O8e4oqIARZ8WCInUZxCOSMtoRCipFKGgRhIJKkTGD5GUQj0jKaEcoqBShoEUQCipFKGgRhIJKkRGDDGUQj0jKKEcoqBShoEUQCipFKGgRhIJKEQpaBKGgUoSCFkEoqBShoEUQCipFhgwCNu9OCbx/TKsER+2YUdCCSJygey1vD8tBjmJaJThqx4yCFkSiBO0mSJCimFQJjtoxo6AFkQEDz5YnHQdlAgzFBAmO2jGjoAWRcEHPLg4F9RuKCRIctWNGQQsiwYIOTLy1rDcHMyQwaseMghZEzgycmw09vLXeYgrmSFjUjhkFLYgECjqy8NZxmyGYI0FRO2YUtCASJujYwWkZj6EwICFRO2YUtCByYuDYZmLgrIzbUJiQgKgdMwpaEAkRdOrfvIzTUBgRf9SOGQUtiAQIOrPPUMZlKMyIN2rHjIIWRI4MrBvM3TOV8RhKQQWMOBQ0aLNTQEEpqBTxCmoQj4KWYcRZoaCw3WzyzlzGbigoKAWVIukEtRsKCkpBpYhHUKN0tjIOQymogBHncgQ1K0dByzDirE9QWG6ME9RqKAWloFIkqaA2QykoBZUiFLQIQkGlyI6B5TaLb44yNkMpqIARh4JaQ0ETMuJciqC2cx5XGTNDQSmoEOkZWG6ioMkQCipFHIJan9akoGUYcSioIxZDg9sTWKYxhIJKEbug9jd/UNAyjDgrExTmG4SCmjlLDWfUjhkFLYhYBXW8v9NTxkSaa7ijdszaFvT9795uNh+/u3r263Ct5pGDcT0FTYnoEfTd1ddvN59/eLn55TfD1YpHDsbVrs8Y+coYWHMRd9SOWcuC/vTVf21n0I9/fLufSU9RPHIwrk4sqKWKM2rHrGVB94f497//dfPxD68Oa251B6aV3aK7NNDGKheb2oK+ezYUdCdpfJWqM6jzSgzeMoYPghqruKN2zNY2g/bRO3Iwrl0mqOFaD+Yyzqgds/YFbekxKEwr3RdboqBlGHG8gn7+4dtmzuJhWrlUUMPlnIx1lpZpBlEmaEvPg8KwznM9RQpahhFnTa8kGd9ntFzQ+RUbEdiguDKtIBRUilDQIggFlSImQX3X9A4qM70oMwIbFFmmEYSCShEKWgShoEIEJiaJoLPvXUBgkyLLtIFQUCFiEtT7zUcUtAwjDgUNyuSrlRDYpNgyTSAUVIgYBPV/uSEFLcOIsx5BYWCSCTr59kQEUtFlWkAoqAxBQUGjDVU6ZhS0III5E/AF28Flxl+QjFAstkwDCAWVIaCgFHQXnSMHA5NS0POdUVABI86aBQ3wk4LGIxRUhGDOpBX0dHcUVMCIQ0GDMxQ01lCdYyZDKKgEwZwJ8TOqTDdAEMFFltGOUFAJgjlDQfMgFFSCYMYE+RlXpjsjiOGUjpkQoaASBDOGgmZCKKgEwYzJK2ikoSrHTIhQUAmCKRPmJwWNRyioBMGUoaC5EAoqQTBlcgi6v1MKKmDEWYmgmDEUNBdCQQUIZkwWQXf3SkEFjDgUNCpnQeMM1ThmUoSCChBMmUA/o1vWUVAKKkAwZShoNoSCxiOYMbkE3d4xBRUw4qxU0FA/KWg8QkHjEUyZfIJuuiOCCEjhmIkRChqPYMpQ0HwIBY1GMGWC/ZS07HjncG20vIxahIJGI5gyFDQjQkGjEUyZrILeduOqucpoRShoNIIJE+4nBY1HKGg0ggmTWdBNvKH6xkyOUNBYBFOGguZEKGgsggkT4ScFjUcoaCyCCZNd0EMFuLdbXkYnQkFjEUwYCpoVoaCxCCZMfkGjDVU3ZgsQChqJYMLE+ElB4xEKGolgwpQQdF8Ezu1SlNGIUNBIBBOGguZFKGgkgjET5ae8Zd2GgpZI+4JiwlDQzAgFjUMwYQoJGmeosjFbhFDQOARjJs5PChqPUNA4BGOmmKB9Jbi2S1RGHUJB4xCMGQqaG6GgUQjGTKSfi1rWUdD8oaDRoaACRhwKGp0z0sG+VcIyyhAKGoVgxMT6SUHjEQoahWDElBWUh/j8aV1QjBkKmh+hoDEIRky0nxQ0HqGgMQhGTGlBgx+EqhqzhQgFjUEwYkoLGjyFqhqzhQgFjUEw/CPeTwoaj1DQCASjvyoImudS+KoRChqBYPQXBS2BUNAIBMM/ugotCzRU05gtRShoBILhHxS0CEJBIxAM/6giaNjjCk1jthRZLOj9P3z/6fpBn0f+jdsWFMM/uhotQ9gjX0VjthhJI+jT7cKn6y9/9m0cKeitrmD4R1epBVXq6skCQTcfnr9ILOhOUj0Ihn/UmkFDplBFY7YYCWJe90fvm0eb/lj+xZutlI+3R/Snm/sn//ngi7+dBO238GQ9gnZ1WgYKasrd1spP1y8+XW8NvPny591UefPFm/vHj4Yz6ObOe4ynoAsRbEIMVTRmi5Egpjfy/smb3tN++e+9h1sx7x+/GAva3+5M04Ji+AcF1SRof/Du/+1O1rfH9s3d9tfD77duXtIMisHy4IuyU5dxIjgWz1tGERLG3D/5n+sX/dF999eH5w+/382gE0Ffr/sxKAbLFFSXoJ+u/+3Jm83d1ss+u5nybjaDRp7F7zRP1L4iCAbLtQQNM1TPmC1HApmb/mn43TOdWzF7Ue8fTwWNfx709YMHfkTPyOG82GUs40ZwKp+1jB4kkNmdD+2eZuqnva1ZD//y/MVZ0ONjU1+mh/gPz72YmpHDYLmyoD5D1YxZAiRU0Ce+E/SgzB+DHp9atUbNyGGwXFtQj6FqxiwBEnqID5geAzIV9Gb3Cv5r14FezchhsExBiyFBzP1j/2PFoIwE7SfP3WmV8/lTNSOHwXI9QYMMVTNmCRARI874LN77vH4fNSOHwTIFLYbUFNQ/fW70jBwGy12+Ml7k2A6XoVrGLAVCQQMRDJYpaDmklqCHl03973PWMnIYLGsQ1GWoljFLgVSfQX3RMnI4L3YZy/iRU0PshmoZsxRIPUEDo2XkcF6koAWRIKYzJ77YSdDt9Nm/itSnjcegGCwrEdRuqJIxS4KECRqx1pl2Z1CcF4/9pqAlEAoahuC8qEZQ6x5QMmZJkIqC7g/zvmfrlYwczouVBQ2YQpWMWRKkoqCvH/UfbPJ90k7JyOG0dOo2BS2B1BN0O4H2n8Jr44l6nBcVCWrbBTrGLA1SVdAPz582J+i51xS0BFJP0E/XT/u35vs+yKRj5HBaUiWoZR/oGLM0SBpBd+9nvn98OOM5vLvZ8Cbn0WPQ7faP3O8FDW1ffgSnpfqC+g3VMWZpkCSC3vVm9i9d7j73ebf39M5wgt7s00w4LgyGgoKWQFII+vrhn7eT5f0//rz58M/fH/46/hqnVUFxWtImqHHfqBizREi6Q/xR0JhDfCsvdeK0REELI+kE3R3iH4YLurvSU5r2ZUdwXBiOhA5BTTtHxZglQtKeJP3Tn8IFbentdjguqBDUa6iKMUuEJBR0mw//8mYTPoNSUCGC0V8UNPAQv338uX/dMvAxqP9ieKHty43guDAaCC2CznePhjFLhSScQe+OV7IJPcQ3835QHBcoaHGk3itJgdEwcjj8Hve4Yssw/nO6JzSMWSqEggYgOPzWKuh0V2gYs1RITUFvHjx4cdPCS504/Kag5ZGKgr7+8n/377hzRsPIYf9LjwaYrlDzXyc5EiZo8g/NbQ5vt3vRxNvtsP9FQSsgIkacpgXVdCqC6Qolzy+kR4IYmBNfbHSIv+kP8f17lhe3LzeC3U/Vgip5CSE9EiZoxFpnxidJdyHXZVYwctj/oqA1kJqCBkXByGH3U9XT4Ziv0vA+qwwIBfUj2P1UJah7ClUwZsmQSoIeX+ds4qVO9D+UvSUD81UKPoySAak4g94cvlnRjSgYOfQ/9Ata/wPROZB6gjZzAVvsflLQOggF9SLof2h73zpMK2tflCcHkkbQ4ceO97/2V1CeHr5Nh3j1z4Oi/6FNUOcUWn/M0iFJBB1+7Pj06WPTtx8bngf1va2+/shho/GjaTCtrHvl0ixICkFHHzs+f7hz/3OUJp9mwoaC1kPSHeJnghquW9eioOh/UNBaSDpBDx87Pn362DCBNiuoxut3wLSy5veP5EHSniT1Hzs+fvp4/giUglLQPAx8a8cfO97/em04PW9UUJXXkINxbZe6TG0k4SF+/7Hj46ePP/1pfoRvUVBsmhJ019baY5YSSTiDHj52fPhleghKQVMiMK6loJ61zlDQhAjMq7v6LUuJUFAPgg0FrYlQUA8CtVeCh2V9V71lKREK6kawUSuo3dDqLUuIhAma5UNzYaGg1sCy/vIETZYmBVX7dVmw3SC4YkH1ziRlxKGgSRFY1lNQaZoTFI69XX+fwsbEG1q/MykZcShoUgQ2hoIK06Cg9n1df5/CykQbWr8zKRlxKGhSBFaGgsrSmqBwnXDU36ewM7GG1u9MSkac9gR17Oj6+xQOJtLQ+p1JyYjjF/SXq6urr98OVlBQR2BnKKgkfkF/ejlZUVdQ125WsE/hYOIMVdCZhIw4XkE///hqsoaCOgIHQ0EF8Qr68bvtIf40id5WDrraLfAFjtvUN16SvH76BX3/21eTWbTmf23nBKpi0oGDiZpCNXQmHSNO2Fn86HEoBXUFLibGUA2dSceI05qgZcosQeBgKGh0vIK+e/br5vNflTzN5J5AdexTuJgIQ1V0JhkjTtDzoF+NTuRrClqmzCIELoaCxqatV5JQpswyBC4m3FAdnUnFiENBkyNwMRQ0Mk0JijJlFiJwMRQ0MhQ0PQIHQ0Ej05KgHYqUWYzAxQQbqqQziRhxWhIUZcosRuBiKGhcGhLUO4Gq2adwMaGGaulMGkYcCpoBgYuhoFGhoBkQOJlAQ7V0Jg0jTjuC+v3Us0/hYihoTChoDgROJsxQNZ1JwojTjKBdwLX71OxTOBkKGhEKmgWBkwkyVE9nUjDitCMoipRJhMDJUNDwtCJoyASqaZ/CyYQYqqgzCRhxKGgeBE6GgganEUGD/FS1T+FkAgzV1JnljDgUNBMCJ0NBQ9OGoF3YF0Ro2qdwM35DNXVmOSMOBc2FwMlQ0MC0IihKlEmKwM14DVXVmcWMOBQ0GwInQ0HDQkGzIXAzPkN1dWYpI04Tggb6qW2fwslQ0KBQ0HwInAwFDQoFzYjAyXgM1daZZYw4LQga6qe6fQonQ0FDQkFzInAyDVwJLRkjTgOCBj5Lv7RMFgQuhoIGhIJmReBk1F+NNx0jDgXNi8DFUFB/9Ava70XkL5MJgZNR/pUlCRlxmhAUBcpkQuBkKKg36gWNmEA17lM4GQrqTQuCokCZbAicjO7vdUzIiENBcyNwMRTUF+2Cxhzhde5TOBnN3y2ekhGnAUFRoExOBC6GgnqiXNCoCVTpPoWTsRqqszNSRhz9gqJAmbwIKKg8FLQAAgoqjm5B4/xUu08pqDwUtAQCCiqNakHjTpEU71OHoFZD1XaGgp6QyAlU8T6F/SYK6gwFLYFsbmG/zWKo4s4IGHE0Cxrrp+Z9CvttFNQVCloC2TKw32g2VHNnCkaxoNF+qt6nsN9IQR2hoCWQnoH1RgrqiF5B4/3UvU9hv9VoqOrOlAsFLYHsGFhvpaD2aBYUJcoUQfYMrDebDFXemVJRK6hgAtW+T2G9mYJao1hQlChTdJ/CervBUO2dKRStgnbOJ2aSlaGg8QgF7dO5XntJV6bwPoXtdgpqCwUtgXgFNRiqvjNlolRQySPQFvYpbBtQUEu0CopCI6dF0Lmh+jtTJDoF7Zxv8U1WphhyZmDbgoKao1RQlBo5NYLODG2gMyWiUtDO+TGzZGXKIRRUHJ2CotjI6RF0amgDnSkRCloCGTCwbkNBTVEpKGRVmtinsG5DQU2hoCWQIEEnhrbQmQLRKGh/hF+toMFTaBOdyZ9IQW9LBEWq1Iqjd125VqRLHi9PUTiD7ibQ9c6goVNoG53JHoWCQlqlkX0K+2ZDQ9voTPZQ0BLImIF1Mwo6iz5BIa7Syj6FfbuBoY10JnfUCYpOXKWZfQrrdhR0Gn2Cyqs0s09h3/BsaCudyRxtgh4n0FULGjSFNtOZvFEn6IIq7exTWDekoJMoE/Q0gV6qoJslA0BBd8kq6JIqDe1TWLekoOPoEhSLjnAN7VPYN13wIJyC7pJvGLDsWZaW9imsm1LQUShoCYSCiqNJUCx8pa+pfQrbphR0FApaAokRdCN/KY2C7pJrGLD03WZN7VNYt6Wgw1DQEoiJgXXjTlqGgu6SaRiw+BMPbe1T2LfuhGUo6C55hgHLP5LT2D6FdWsKeo4eQZd/6raxfQr75p2sDAXdJcswTCfQCxDUM4U21plcUSNogksTtbZPYd++a64zuaJE0NkESkEb60yuaBE0xeUxm9unsANdc53JFB2Czv2koK11JlNUCDo/wF+GoE5Dm+tMnugQNM23sKxKUMt3IEuqJEYoqLRKe4LGf4u8qEpa5BIFTVNlXYLexhtKQXdJPgymCfRCBHUYehs/h9buTI5Q0BIIBRVHgaBGPy9FULuht/EPQ6t3JkPqC2r2k4L2SKSh1TuTIRS0BEJBxakuqMVPCrpD4gyt3pkMqS9ouipNCuoZgChD63cmfWoLioRV1iholKH1O5M+lQVFyiptCmobgyMSYaiCziQPBS2BLBE0wlAFnUmeuoIiaZVGBbWMAgXdpaqgSFuFggZvuQS5HEH339iVrkqrgpoNPSPBhqroTOJUFNTp50UJ6ns7VxeoqI7OpE01QTu3nxR0hIQZqqMzaVNL0M79CPTCBDWNxRgJMlRJZ5KmjqCd108KOkFCDFXSmaSpImg/2EhfpWFBDcNh+k+9tEoSZP2Chvh5aYLOB8T4sGhplRTI2gXtgvy8OEFnQ2I8sVxcJQGyZkG77jDGyFFl9YL6FNXTmXQpJ+hJzk2In5cn6HRQLIhLUUWdSZYMgnbmDLZAgiqJGE37FGGIXVFNnUmVpILOTDQjWFYlKaNqnyIQMQ+yss4kSjJBLWqaEMirJGd07VMEI8bh1tWZNEkkqOf8coRAXCUDo2yfIgaZHbCUdSZJyj/NhGxVViCo4OueB5Jq60yKFBcU+aqsQdAN4EMwTr/qMJeq60yClBYUGausQtDTCBmRo5HjVYcl2ymqK9Yns4xPvziZPCkr6Gx0k1ZZh6DHQZojcznHxOnp5gWfszNImeKhrjxFBUXeKisR9CDc5JkPq51nYv6CXVTD3Gov/KZ0cUoKisxVViPo2Ed45DxuNa4SKOnA6eDGrVTQiMO7sMqKBO2R0WlQQADj8drbsOiHrqsUNFJPCipBjIPs8k9yWrVOQVGiysULap0HJqfkg7/4NFOf6OlTVIWCBjySSnFGvjZBt0O2Og10ljmciyJvlZUJiunpZZYqYmaVLUPWKqsS1Pqkc9IqC5h1tiz81P+iBYX/deUEVZYxq21ZoKKXK+joP/FqNdBVZvbiU5YqKxB09uzyijXQVGaG+B1dgaAfv7t69utwhbt9xpc+1q2BmjImxPNSVPuCfv7h5eaX3wzX2NrneF1u9RroKFNmzygT9OMf327e/+7tYE2Z/6ftaVC/jP/Y5krOlsnjFfT973/dfPzDq8Nft8xq4/HXhtUW9N2zoaB9NMwGNcusqmXtH+LHM2ifVY3cpbesfUHDHoN6onfkLr1l7Qv6+YdvA8/iHdE7cpfesvYFjX0e1Bi9I3fpLVuBoLOsauQuvWUUtCDClhVBKKgUYcuKIBRUirBlRRAKKkXYsiIIBZUibFkRhIJKEbasCEJBpQhbVgShoFKELSuCUFApwpYVQSioFGHLiiAUVIqwZUUQCipF2LIiiHpBGaZcKCijOhSUUR0KyqgOBWVUh4IyqkNBGdWhoIzqUFBGdTIKev688vtvrq5eGj7AnKfML1dXV1+/9VDyKu/29567M4cymTuzv3phps4kST5Bz9dt7K+c8/63r+YXcsxSZvPTy9Q1hlX6q6xsl3J35lAmc2c2/f+Al5k6kyb5BD1fM+dd3/efXs4vopOlzOcfX/mYJVX6bJdyd+ZQJntn3v/7f7w0XN5IT/IJOr7q2HZpfhmyLGW2h6vdkT5jle1sU6Iz2zK5O/P5x//ezp55OpMm+QQdXbexv8LT/EKOWcr0R/nkE8+wyvtvvnpVoDO7Mrk788u3/eE9T2fSpMwM+vG7b00XcsxSZpfUD91qHQ52v/N1Zrv0+WJn0MEDm/ffvNyYLuSYpcwuqffppO35H1Afygx/ZajSP0dwdfXtZT4GPV+38SDO/EKOWcr0x6vPf0082ucqh8Nh7s4cymTuzGZ/Sp+nM2mS/XnQ7f/M/f/Tl1mfOhyU2f7+Kvnh6lTlePeZO3Msk7kzl/w8KMMkCAVlVIeCMqpDQRnVoaCM6lBQRnUoaEw+XT/o82L3x82Dp5WbcwmhoDH5dN07ebcz9NP1v37xpnaD1h8KGpO9oPuf90/+9vhF7QatPxQ0JkNBX3/5f9ePajdo/aGgMTkc4r/8ebP58Pzp5obH+OyhoDE5nCT1Xt49/H5zz2N89lDQmOxn0A/Pt1Po60f9nzzG5w4Fjcle0M3dF28+PD/NpUzOUNCYnAW926nJY3z2UNCYnM7iDwd3HuOzh4LG5HCS9PQ0dd5sT5WYnKGgjOpQUEZ1KCijOhSUUR0KyqgOBWVUh4IyqkNBGdWhoIzqUFBGdf4fJWNRNJyviQgAAAAASUVORK5CYII=" /><!-- --></p>
+<div id="z-scores" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Z-scores</h2>
+<p>One simple era-adjustment technique is to scale the separate
+distributions and compute Z-scores of batting averages, <span class="math display">\[
+  Z_{i,j} = \frac{Y_{i,j} - \hat{\mu}_i}{\hat{\sigma}_i}
+\]</span> where <span class="math inline">\(Y_{i,j}\)</span> is an
+observed batting average for individual <span class="math inline">\(j\)</span> from year <span class="math inline">\(i\)</span>, <span class="math inline">\(\hat{\mu}_i\)</span> is the estimated mean batting
+average of full-time players from year <span class="math inline">\(i\)</span>, and <span class="math inline">\(\hat{\sigma}_i\)</span> is the estimated standard
+deviation of batting averages for full-time players from year <span class="math inline">\(i\)</span>.</p>
+<p>Computing Z-scores for batting events as an era-adjustment technique
+has been common for decades. For example, see Jim Albert’s <a href="https://jse.amstat.org/v10n2/albert.html">2002 Baseball Course
+primer</a>, Michael J Schell’s <a href="https://sabr.org/journal/article/tony-gwynn-meeting-baseballs-best-hitter/">2019
+SABR article</a>, and Benjamin Alter’s <a href="https://sabr.org/journal/article/using-z-scores-to-measure-player-performance/">2025
+SABR article</a>. The code below computes the maximum Z-scores for each
+season. We see that Ty Cobb still rates ahead of Tony Gwynn, his
+performance was slightly more standard deviations above the mean than
+Gwynn’s.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>foo <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">name =</span> name[<span class="fu">which</span>(<span class="fu">scale</span>(BA) <span class="sc">==</span> <span class="fu">max</span>(<span class="fu">scale</span>(BA)))], </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>            <span class="at">Z_max =</span> <span class="fu">max</span>(<span class="fu">scale</span>(BA)), </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>            <span class="at">.by =</span> yearID)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="do">##   yearID       name Z_max</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="do">## 1   1997 Tony Gwynn 3.313</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="do">## 2   1911    Ty Cobb 3.493</span></span></code></pre></div>
+</div>
+<div id="full-house-modeling" class="section level2" number="4.2">
+<h2><span class="header-section-number">4.2</span> Full House
+Modeling</h2>
+<p>Now we obtain the talent pool sizes and the number of full-time
+players for both the 1911 and 1997 seasons. Talent pool sizes are in the
+R package. These were estimated following the procedure described in <a href="https://eckeraadjustment.web.illinois.edu/MLBeligiblepop.html">this
+technical report</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># talent pool size (from fullhouse package)</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>N_1911 <span class="ot">=</span> <span class="dv">1694866</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>N_1997 <span class="ot">=</span> <span class="dv">9669798</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># number of full-time players</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>ns <span class="ot">=</span> foo <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.by =</span> yearID)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>n_1911 <span class="ot">=</span> ns <span class="sc">%&gt;%</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">1911</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(n)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>n_1997 <span class="ot">=</span> ns <span class="sc">%&gt;%</span> <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">1997</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(n)</span></code></pre></div>
+<p>We get the means and standard deviations of batting averages for
+full-time players from 1911 and 1997.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># means and standard deviations for BA from 1911 </span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>means_sds_1911 <span class="ot">=</span> means_sds <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">1911</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(mean_BA, sd_BA)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># means and standard deviations for BA from 1997</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>means_sds_1997 <span class="ot">=</span> means_sds <span class="sc">%&gt;%</span> </span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">1997</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(mean_BA, sd_BA)</span></code></pre></div>
+<p>We now compute the extreme batting average percentiles, <span class="math inline">\(\left(F_i(Y_{i,(n_i)})\right)^{n_i}\)</span>, for
+Ty Cobb and Tony Gwynn. These percentiles behave like realizations from
+a Uniform<span class="math inline">\((0,1)\)</span> distribution. Again,
+we see that Ty Cobb stood further above his peers.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># max BA from 1911 </span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>max_BA_1911 <span class="ot">=</span> max_BA <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">1911</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(max_BA)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># max BA from 1997 </span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>max_BA_1997 <span class="ot">=</span> max_BA <span class="sc">%&gt;%</span> </span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">filter</span>(yearID <span class="sc">==</span> <span class="dv">1997</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(max_BA)</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># 1911 Ty Cobb&#39;s extreme batting average percentile</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>F_max_1911 <span class="ot">=</span> </span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">pnorm</span>(max_BA_1911, </span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>        <span class="at">mean =</span> means_sds_1911<span class="sc">$</span>mean_BA, </span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>        <span class="at">sd =</span> means_sds_1911<span class="sc">$</span>sd_BA)<span class="sc">^</span>n_1911</span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>F_max_1911</span>
+<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="do">## [1] 0.9747</span></span>
+<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co"># 1997 Tony Gwynn&#39;s extreme batting average percentile</span></span>
+<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a>F_max_1997 <span class="ot">=</span> </span>
+<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a>  <span class="fu">pnorm</span>(max_BA_1997, </span>
+<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a>        <span class="at">mean =</span> means_sds_1997<span class="sc">$</span>mean_BA, </span>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a>        <span class="at">sd =</span> means_sds_1997<span class="sc">$</span>sd_BA)<span class="sc">^</span>n_1997</span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a>F_max_1997</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="do">## [1] 0.9054</span></span></code></pre></div>
+<p>We now estimate <span class="math inline">\(X_{i,(N_i)}\)</span>
+assuming that batting average aptitude is realized according to a
+standard normal distribution. Surprisingly, we find that 1997 Tony Gwynn
+had a higher inferred aptitude than 1911 Ty Cobb!</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># aptitude for 1911 Ty Cobb</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">qnorm</span>(F_max_1911<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>N_1911))</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="do">## [1] 5.54</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># aptitude for 1997 Tony Gwynn</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">qnorm</span>(F_max_1997<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>N_1997))</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="do">## [1] 5.607</span></span></code></pre></div>
+<p>While the assumption of a standard normal latent distribution might
+initially seem strong, the conclusions are actually robust to the choice
+of distribution. This is because the general equation for obtaining
+<span class="math inline">\(X_{i,(N_i)}\)</span> involves an input for
+the quantile function <span class="math inline">\(F_{X}^{-1}(\cdot)\)</span> of the form <span class="math display">\[
+  \left(F_i(Y_{i,(n_i)})\right)^{n_i/N_i},
+\]</span> and this value is higher for 1997 Tony Gwynn than it is for
+1911 Ty Cobb.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># input for 1997 Tony Gwynn</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;%.10f&quot;</span>, F_max_1997<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>N_1997))</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="do">## [1] &quot;0.9999999897&quot;</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co"># input for 1911 Ty Cobb</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">sprintf</span>(<span class="st">&quot;%.10f&quot;</span>, F_max_1911<span class="sc">^</span>(<span class="dv">1</span><span class="sc">/</span>N_1911))</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="do">## [1] &quot;0.9999999849&quot;</span></span></code></pre></div>
+<p>In general the quantile function <span class="math inline">\(F_{X}^{-1}(\cdot)\)</span> is non-decreasing. Thus
+any choice for the talent generating process will yield the same
+conclusion under this Full House Model:</p>
+<p><strong>1997 Tony Gwynn had higher latent batting average aptitude
+than 1911 Ty Cobb, even though raw batting averages and Z-scores suggest
+otherwise. This reversal reflects Gwynn dominating a vastly larger
+source population than Cobb.</strong></p>
+</div>
+</div>
+<div id="discussion" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Discussion</h1>
+<p>Michael Schell’s 2019 SABR article, referenced earlier, focused on
+comparing the career batting averages of Tony Gwynn and Ty Cobb. Using a
+Z-score based analysis, Schell concluded that Gwynn’s relative
+performance was stronger. His article appeared in <a href="https://sabr.org/journals/pacific-ghosts/">The National Pastime:
+Pacific Ghosts (San Diego, 2019)</a>, a SABR collection that was
+published roughly five years after Gwynn’s death.</p>
+<p>Earlier, in his 2005 book <a href="https://www.jstor.org/stable/j.ctt19705ks">Baseball’s All-Time
+Best Sluggers: Adjusted Batting Performance from Strikeouts to Home
+Runs</a>, Schell had acknowledged the limitations of Z-score based
+adjustments. On page 58, he noted (paraphrased slightly):</p>
+<p>“Someday we will need to abandon the use of the standard deviation as
+a talent pool adjustment altogether and search for another talent pool
+adjustment method, likely involving more difficult statistical methods
+than those used in this book.”</p>
+<p>Full House Modeling provides such a method. It directly connects
+achievement to underlying talent, after accounting for talent pool size
+through explicit modeling inputs.</p>
+<p>The name “Full House” is a deliberate reference to Stephen Jay
+Gould’s 1996 book <a href="https://archive.org/details/fullhouse00step">Full House: The
+Spread of Excellence from Plato to Darwin</a>. In that book, Gould
+argued that the disappearance of 0.400 hitting in baseball reflected a
+general improvement of play and a narrowing of variation in performance,
+rather than a decline in greatness. Gould had originally introduced this
+argument in his 1986 essay, “Entropic Homogeneity Isn’t Why No One Hits
+.400 Anymore.”</p>
+<p>Gould’s work provided the conceptual groundwork linking talent pool
+expansion, training improvements, and shrinking variance in achievement.
+However, a formal mathematical framework connecting these ideas to an
+era-adjustment method for player achievement did not emerge until much
+later. Full House Modeling builds on these insights by providing a
+statistical apparatus for relating observed achievements to underlying
+aptitudes across changing competitive environments.</p>
+<p>At the time of Schell’s 2019 article, Z-score based methods and other
+standard deviation-based approaches remained standard practice for era
+adjustment. Full House Modeling represents a further step in formalizing
+and extending the conceptual foundations laid by earlier work.</p>
+<p>A suite of era-adjusted statistics obtained through Full House
+Modeling is available here:</p>
+<p><a href="https://eckeraadjustment.web.illinois.edu/" class="uri">https://eckeraadjustment.web.illinois.edu/</a></p>
+<p>Several preprocessing steps, including handedness-specific park
+factor adjustments building on Michael Schell’s earlier work, were
+incorporated into the computation of era-adjusted batting averages on
+this website.</p>
+</div>
+<div id="references" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> References</h1>
+<p>Shen Yan, Adrian Burgos Jr., Christopher Kinson, and Daniel J. Eck
+(2025). Comparing baseball players across eras via novel Full House
+Modeling. <em>Annals of Applied Statistics</em>, 19(2): 1778-1799. DOI:
+10.1214/24-AOAS1992.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
