@@ -227,7 +227,7 @@ $$
 $$
 where $Y_{i,j}$ is an observed batting average for individual $j$ from year $i$, $\hat{\mu}_i$ is the estimated mean batting average of full-time players from year $i$, and $\hat{\sigma}_i$ is the estimated standard deviation of batting averages for full-time players from year $i$. 
 
-Computing Z-scores for batting events as an era-adjustment technique has been common for decades. For example, see Jim Albert's [2002 Baseball Course primer](https://jse.amstat.org/v10n2/albert.html), Michael J Schell's  [2019 SABR article](https://sabr.org/journal/article/tony-gwynn-meeting-baseballs-best-hitter/), and Benjamin Alter's [2025 SABR article](https://sabr.org/journal/article/using-z-scores-to-measure-player-performance/). The code below computes the maximum Z-scores for each season. We see that Ty Cobb still rates ahead of Tony Gwynn, his performance was slightly more standard deviations above the mean than Gwynn’s.
+Computing Z-scores for batting events as an era-adjustment technique has been common for decades. For example, see Jim Albert's [2002 Baseball Course primer](https://www.tandfonline.com/doi/full/10.1080/10691898.2002.11910663), Michael J Schell's  [2019 SABR article](https://sabr.org/journal/article/tony-gwynn-meeting-baseballs-best-hitter/), and Benjamin Alter's [2025 SABR article](https://sabr.org/journal/article/using-z-scores-to-measure-player-performance/). The code below computes the maximum Z-scores for each season. We see that Ty Cobb still rates ahead of Tony Gwynn, his performance was slightly more standard deviations above the mean than Gwynn’s.
 
 \vspace*{6pt}
 ```{r}
@@ -326,7 +326,7 @@ In general the quantile function $F_{X}^{-1}(\cdot)$ is non-decreasing. Thus any
 
 # Discussion
 
-Michael Schell’s 2019 SABR article, referenced earlier, focused on comparing the career batting averages of Tony Gwynn and Ty Cobb. Using a Z-score based analysis, Schell concluded that Gwynn’s relative performance was stronger. His article appeared in [The National Pastime: Pacific Ghosts (San Diego, 2019)](https://sabr.org/journals/pacific-ghosts/), a SABR collection that was published roughly five years after Gwynn's death.
+Michael Schell’s 2019 SABR article, referenced earlier, focused on comparing the career batting averages of Tony Gwynn and Ty Cobb. Using a Z-score based analysis, Schell concluded that Gwynn’s relative performance was stronger. His article appeared in [The National Pastime: Pacific Ghosts (San Diego, 2019)](https://sabr.org/journals/2020-national-pastime-2), a SABR collection that was published roughly five years after Gwynn's death.
 
 Earlier, in his 2005 book [Baseball's All-Time Best Sluggers: Adjusted Batting Performance from Strikeouts to Home Runs](https://www.jstor.org/stable/j.ctt19705ks), Schell had acknowledged the limitations of Z-score based adjustments. On page 58, he noted (paraphrased slightly):
 

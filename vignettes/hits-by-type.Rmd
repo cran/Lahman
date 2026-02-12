@@ -49,7 +49,6 @@ batting <- Batting %>%
   # select the years from 1871+
   filter(yearID >= 1871) %>% 
   group_by(yearID) %>%
-#  summarise_each(funs(sum(., na.rm=TRUE))) %>% 
   summarise_all(funs(sum(., na.rm=TRUE))) %>% 
   # we summarize by year, and then na.rm takes care of 0's in the data
   mutate(X1 = H-(X2B+X3B+HR)) %>% #create a column for singles

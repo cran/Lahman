@@ -12,7 +12,7 @@ vignette: >
 ## Run scoring trends: Sub-titles and captions with ggplot2
 
 
-This vignette demonstrates how to create a plot (using `ggplot2`) showing Major League Baseball runscoring trends since the 1901 season.
+This vignette demonstrates how to create a plot (using `ggplot2`) showing Major League Baseball run scoring trends since the 1901 season.
 
 First, we load the necessary packages: `Lahman` (containing the baseball data), `ggplot2` to create the plots, and the data carpentry package `dplyr` (note that `ggplot2` and `dplyr` are included in the `tidyverse` package):
 
@@ -129,7 +129,7 @@ MLBRPGplot +
 Easy.
 
 
-For more information about the `labs` function in `ggplot2`, the ["Modify axis, legend, and plot labels"](https://ggplot2.tidyverse.org/reference/labs.html) reference page within the [`ggplot2`](https://ggplot2.tidyverse.org/) site, part of the [Tidyverse](https://www.tidyverse.org/).
+For more information about the `labs` function in `ggplot2`, the ["Modify axis, legend, and plot labels"](https://ggplot2.tidyverse.org/reference/labs.html) reference page within the [`ggplot2`](https://ggplot2.tidyverse.org/) site, part of the [Tidyverse](https://tidyverse.org/).
 
 
 ***

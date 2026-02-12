@@ -9,7 +9,7 @@ Split season data for teams
 }
 \usage{data(TeamsHalf)}
 \format{
-  A data frame with 52 observations on the following 10 variables.
+  A data frame with 142 observations on the following 10 variables.
   \describe{
     \item{\code{yearID}}{Year}
     \item{\code{lgID}}{League; a factor with levels \code{AL} \code{NL}}
@@ -27,7 +27,7 @@ Split season data for teams
 %%%  ~~ If necessary, more details than the __description__ above ~~
 %}
 \source{
-Lahman, S. (2024) Lahman's Baseball Database, 1871-2024, 2025 version, \url{https://sabr.org/lahman-database/}
+Lahman, S. (2026) Lahman's Baseball Database, 1871-2025, 2026 version, \url{https://sabr.org/lahman-database/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~

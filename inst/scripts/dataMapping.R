@@ -1,12 +1,6 @@
 # added to help maintain column naming consistency
 library(dplyr)
 
-mapBatting <- function(df) {
-  df <- df %>% select(-c(G_batting, G_old))
-  
-  return(df)
-}
-
 mapHallOfFame <- function(df) {
   df <- df %>% rename(yearID = yearid)
   

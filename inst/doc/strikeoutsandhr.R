@@ -27,7 +27,7 @@ str(Batting) # take a look at the structure of the complete data set, as it is
 Batting <- Batting %>%
   select(yearID, AB, SO, HR) %>% # select the variables that we need
   group_by(yearID) %>% # group by year, so that each row is one year
-  summarise_each(funs(sum)) # we want the sum of AB, HR, and SO in the other rows
+  summarise(across(everything(), sum)) # we want the sum of AB, HR, and SO in the other rows
 
 FullBatting<- Batting %>% # create a new variable that has SO rate and HR rate
   filter(yearID >= 1950) %>% # select the years from 1900+

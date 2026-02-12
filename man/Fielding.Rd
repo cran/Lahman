@@ -9,7 +9,7 @@ Fielding table
 }
 \usage{data(Fielding)}
 \format{
-  A data frame with 153656 observations on the following 18 variables.
+  A data frame with 174332 observations on the following 18 variables.
   \describe{
     \item{\code{playerID}}{Player ID code}
     \item{\code{yearID}}{Year}
@@ -35,7 +35,7 @@ Fielding table
 %%%  ~~ If necessary, more details than the __description__ above ~~
 %}
 \source{
-Lahman, S. (2025) Lahman's Baseball Database, 1871-2024, 2025 version, \url{https://sabr.org/lahman-database/}
+Lahman, S. (2026) Lahman's Baseball Database, 1871-2025, 2026 version, \url{https://sabr.org/lahman-database/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
@@ -72,7 +72,7 @@ with(subset(Fielding, playerID == "rosepe01"), xtabs(G ~ POS))
 Fielding \%>\%
     filter(playerID == "aparilu01") \%>\% 
     select(G, PO, A, E, DP) \%>\%
-    summarise_each(funs(sum))
+    summarise(across(everything(), sum))
 
 
 # Top ten 2B/SS in turning DPs

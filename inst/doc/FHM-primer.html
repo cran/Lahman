@@ -50,8 +50,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -62,7 +63,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -588,7 +589,7 @@ perform some basic preprocessing.</p>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co"># version numbers</span></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;Lahman&quot;</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">## [1] &#39;13.0.0&#39;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="do">## [1] &#39;14.0.0&#39;</span></span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;tidyverse&quot;</span>)</span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="do">## [1] &#39;2.0.0&#39;</span></span>
 <span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#packageVersion(&quot;fullhouse&quot;)</span></span>
@@ -646,8 +647,8 @@ observed batting average for individual <span class="math inline">\(j\)</span> f
 average of full-time players from year <span class="math inline">\(i\)</span>, and <span class="math inline">\(\hat{\sigma}_i\)</span> is the estimated standard
 deviation of batting averages for full-time players from year <span class="math inline">\(i\)</span>.</p>
 <p>Computing Z-scores for batting events as an era-adjustment technique
-has been common for decades. For example, see Jim Albert’s <a href="https://jse.amstat.org/v10n2/albert.html">2002 Baseball Course
-primer</a>, Michael J Schell’s <a href="https://sabr.org/journal/article/tony-gwynn-meeting-baseballs-best-hitter/">2019
+has been common for decades. For example, see Jim Albert’s <a href="https://www.tandfonline.com/doi/full/10.1080/10691898.2002.11910663">2002
+Baseball Course primer</a>, Michael J Schell’s <a href="https://sabr.org/journal/article/tony-gwynn-meeting-baseballs-best-hitter/">2019
 SABR article</a>, and Benjamin Alter’s <a href="https://sabr.org/journal/article/using-z-scores-to-measure-player-performance/">2025
 SABR article</a>. The code below computes the maximum Z-scores for each
 season. We see that Ty Cobb still rates ahead of Tony Gwynn, his
@@ -746,9 +747,9 @@ source population than Cobb.</strong></p>
 <p>Michael Schell’s 2019 SABR article, referenced earlier, focused on
 comparing the career batting averages of Tony Gwynn and Ty Cobb. Using a
 Z-score based analysis, Schell concluded that Gwynn’s relative
-performance was stronger. His article appeared in <a href="https://sabr.org/journals/pacific-ghosts/">The National Pastime:
-Pacific Ghosts (San Diego, 2019)</a>, a SABR collection that was
-published roughly five years after Gwynn’s death.</p>
+performance was stronger. His article appeared in <a href="https://sabr.org/journals/2020-national-pastime-2">The National
+Pastime: Pacific Ghosts (San Diego, 2019)</a>, a SABR collection that
+was published roughly five years after Gwynn’s death.</p>
 <p>Earlier, in his 2005 book <a href="https://www.jstor.org/stable/j.ctt19705ks">Baseball’s All-Time
 Best Sluggers: Adjusted Batting Performance from Strikeouts to Home
 Runs</a>, Schell had acknowledged the limitations of Z-score based

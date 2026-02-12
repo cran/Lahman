@@ -11,7 +11,7 @@ outdir <- "D:/Dev/Projects/Lahman/data"
 setwd(indir)
 
 # local data location
-dataFile <- "lahman_1871-2024_csv.zip"
+dataFile <- "lahman_1871-2025_csv.zip"
 
 # TODO: find permanent url to download source zip file (if possible)
 # - Data can be found at: https://sabr.app.box.com/s/rsry2en86bimvybwsorumfsxmf91002a?page=1
@@ -24,7 +24,7 @@ if (!file.exists(dataFile)) {
 archive_extract(dataFile, dir=indir)
 
 # Read the Lahman MLB .csv files and create .RData and .Rd files
-indir <- paste0(indir, "/lahman_1871-2024_csv")
+indir <- paste0(indir, "/lahman_1871-2025_csv")
 setwd(indir)
 
 files <- list.files(indir, pattern="csv", full.names=TRUE)
@@ -80,7 +80,6 @@ People <- within(People, {
 })
 
 # do some data remapping due to minor schema drift
-Batting <- mapBatting(Batting)
 HallOfFame <- mapHallOfFame(HallOfFame)
 HomeGames <- mapHomeGames(HomeGames)
 Parks <- mapParks(Parks)

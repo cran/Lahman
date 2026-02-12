@@ -9,7 +9,7 @@ Information about team franchises
 }
 \usage{data(TeamsFranchises)}
 \format{
-  A data frame with 120 observations on the following 4 variables.
+  A data frame with 203 observations on the following 4 variables.
   \describe{
     \item{\code{franchID}}{Franchise ID; a factor}
     \item{\code{franchName}}{Franchise name}
@@ -21,7 +21,7 @@ Information about team franchises
 %%%  ~~ If necessary, more details than the __description__ above ~~
 %}
 \source{
-Lahman, S. (2024) Lahman's Baseball Database, 1871-2024, 2025 version, \url{https://sabr.org/lahman-database/}
+Lahman, S. (2026) Lahman's Baseball Database, 1871-2025, 2026 version, \url{https://sabr.org/lahman-database/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~

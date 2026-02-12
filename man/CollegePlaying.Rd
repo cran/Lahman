@@ -9,7 +9,7 @@ Information on schools players attended, by player
 }
 \usage{data(CollegePlaying)}
 \format{
-  A data frame with 17350 observations on the following 3 variables.
+  A data frame with 17687 observations on the following 3 variables.
   \describe{
     \item{\code{playerID}}{Player ID code}
     \item{\code{schoolID}}{school ID code}
@@ -30,7 +30,7 @@ us to better account for players who attended multiple colleges or
 skipped a season, as well as to identify teammates.
 }
 \source{
-Lahman, S. (2025) Lahman's Baseball Database, 1871-2024, 2025 version, \url{https://sabr.org/lahman-database/}
+Lahman, S. (2026) Lahman's Baseball Database, 1871-2025, 2026 version, \url{https://sabr.org/lahman-database/}
 }
 %\references{
 %%  ~~ possibly secondary sources and usages ~~
